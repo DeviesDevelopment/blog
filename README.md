@@ -6,6 +6,11 @@
 
 ## How to
 
+This repository uses git submodules for hugo themes. To clone the repo, you must either:
+
+- Run git clone with an additional flag: `git clone --recurse-submodules https://github.com/DeviesDevelopment/blog`
+- Run `git submodule update --init --recursive` after cloning the repository
+
 ### Write new post
 
 From the repository root, run `hugo new posts/my-title.md`.
