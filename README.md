@@ -1,10 +1,12 @@
 # blog
 
+Blog by [Devies](https://www.devies.se/).
+
 ## Requirements
 
-- [Hugo CLI](https://gohugo.io/getting-started/installing)
+You need to have [Hugo CLI](https://gohugo.io/getting-started/installing) installed.
 
-## How to
+## Getting started
 
 This repository uses git submodules for hugo themes. To clone the repo, you must either:
 
@@ -15,7 +17,7 @@ This repository uses git submodules for hugo themes. To clone the repo, you must
 
 From the repository root, run `hugo new posts/my-title.md`.
 
-This will create a new file in `content\posts\my-title.md`, wwhere you can write your content.
+This will create a new file in `content/posts/my-title.md`, where you can write your content.
 
 ### Run server locally
 
