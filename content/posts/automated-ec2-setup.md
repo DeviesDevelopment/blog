@@ -33,6 +33,11 @@ resource "aws_instance" "app_server" {
   subnet_id              = aws_subnet.subnet.id
 }
 
+resource "aws_eip" "ip" {
+  instance = aws_instance.app_server.id
+  vpc      = true
+}
+
 resource "aws_key_pair" "deployer" {
   key_name   = var.key_pair_name
   public_key = var.key_pair_public_key
@@ -42,7 +47,7 @@ output "server_ip" {
   value = aws_eip.ip.public_ip
 }
 ```
-Critical parts: known key-pair, output for server ip
+aws_instance is the actual server, but we also have a few critical parts: key pair! output ip!
 
 # Configure server
 
