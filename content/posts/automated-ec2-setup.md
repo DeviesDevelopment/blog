@@ -20,7 +20,7 @@ In this post I will describe how I've automated this process. The automation wil
 
 First of all, I need a virtual server. As described above I'll go for an EC2 instance hosted in AWS. To have it deployed to my AWS account I use Terraform.
 
-Terraform is a great tool which lets you automate deployment of resources in different cloud environments (such as AWS, GCP, Azure). To use it, you describe what resources you need to create in templates (text files) with a language/syntax called HCL. Then, you use the Terraform CLI to *apply* these templates to your cloud environment. To apply means to create or update resources in the cloud environment to reflect what you've described in your templates.
+Terraform is a great tool which lets you automate deployment of resources in different cloud environments (such as AWS, GCP, Azure). To use it, you describe what resources you need to create in templates (text files) with a language/syntax called HCL. Then, you use the Terraform CLI to *apply* these templates to your cloud environment. To apply means to create, update or delete resources in the cloud environment to reflect what you've described in your templates.
 
 Below is a subset of the template containing resources I need for my server. Apart from that the template also includes a bunch of network-related resources and domain names. You can see the full template [here](https://github.com/Dunklas/app-server/tree/main/iac).
 
@@ -47,8 +47,17 @@ output "server_ip" {
   value = aws_eip.ip.public_ip
 }
 ```
-aws_instance is the actual server, but we also have a few critical parts: key pair! output ip!
+The resource of type `aws_instance` describes the actual EC2 instance. It's of type `t2.micro` (a quite cheap one) and uses an ubuntu image. To deploy these resources I run a [github actions workflow](LÄNK) where I use the Terraform CLI to have these resources created in my AWS account.
+
+This will give me a new virtual server that runs Ubuntu, but there's still stuff left to do. I need to install docker and configure the nginx reverse proxy. In order to do this automatically in my github actions workflow I need to: (1) have knowledge about what IP address my new server have; (2) be able to access the new server via SSH.
+
+In above terraform template you can see that I've used an `aws_eip` resource to assign an [elastic IP address](LÄNK) to my EC2 instance. Further, I expose the actual IP adress as an output. By doing this, I can query what IP address that has been assigned to my new server with the Terraform CLI by running the following command: `terraform output server_ip --raw`.
+
+To enable access to my server via SSH I have associated a `aws_key_pair` resource to my EC2 instance. Prior to running my github actions workflow I've generated an SSH key pair, and included the public part in the `public_key` property. This means that I will be able to use the private key of my key pair to authenticate to my new server via SSH. I've added the private key as a repository secret in order to access it from my github actions workflow.
 
 # Configure server
+
+Now I have a server runnig Ubuntu. I also have knowledge about what IP address the server have, and I have a private key which I can access from my github actions workflow in order to authenticate to the server.
+
 
 # Deploy services
