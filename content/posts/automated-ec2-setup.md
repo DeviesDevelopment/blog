@@ -6,7 +6,7 @@ description: ""
 ---
 Lately I've been looking for a good way of hosting some personal projects. I wanted some non-serverless way (mostly to avoid cold starts) to host primarily APIs and websites. A colleague of mine has for a long time used a single virtual server (more specifically, an EC2 instance in AWS) where he runs multiple services inside docker containers. To enable access to each individual service, there is an nginx reverse proxy that forwards traffic to services. I decided to try the same approach.
 
-![EC2 instance, with docker containers and nginx reverse proxy](/ec2-docker.png)
+![EC2 instance, with docker containers and nginx reverse proxy](/blog/ec2-docker.png)
 
 The server accepts traffic on port 80 and 443. To decide which service that should receive a request, nginx inspects the hostname of the request and forwards traffic to respective service (docker container).
 
@@ -14,7 +14,7 @@ To accomplish this setup I will need a bunch of things. First of all I need an E
 
 This calls for automation! Steps I take to deploy and configure my server can be described in code and executed by software. This has a lot of advantages. There's no risk of me forgetting how I've deployed and configured my server (since I have it described in code), and if I for some reason need to repeat the whole process, I can simply execute the steps again.
 
-In this post I will describe how I've automated this process. The automation will run in a [Github Actions](https://github.com/features/actions) workflow, where I use tools such as [Terraform](https://www.terraform.io/) and [Ansible](https://www.ansible.com/) to deploy and configure my server. Note that I will not go into detail on how to use the respective tools, but rather describe the general process of deploying and configuring my server with the tools.
+In this post I will describe how I've automated this process. The automation will run in a [Github Actions](https://github.com/features/actions) workflow, where I use [Terraform](https://www.terraform.io/) and [Ansible](https://www.ansible.com/) to deploy and configure my server. Note that I will not go into detail on how to use the respective tools, but rather describe the general process of deploying and configuring my server with the tools.
 
 # Deploy server
 
@@ -59,45 +59,24 @@ To enable access to my server via SSH I have associated a `aws_key_pair` resourc
 
 Now I have a server running Ubuntu. I also have knowledge about what IP address the server have, and I have a private key which I can access from my github actions workflow in order to authenticate to the server. To actually do things (such as installing applications) on my server I use [Ansible](https://www.ansible.com).
 
-With Ansible you write *playbooks* that describes a desired state (e.g. application X is installed, or user Y is member of group Z). Then you can run these playbooks on a remote machine (or many) to get the desired state. By default Ansible uses SSH in order to execute commands on a remote machine.
+With Ansible you write *playbooks* that contains a sequence of *tasks*, and each task describes a desired state (e.g. application X is installed, or user Y is member of group Z). Then you can run these playbooks on a remote machine (or many) to get the desired state. By default Ansible uses SSH in order to execute commands on a remote machine.
 
-Below is a subset of my playbooks. This part is responsible for installing docker and some required dependencies. The full playbook is available [here](https://github.com/Dunklas/app-server/tree/main/playbooks).
+Below are some of the tasks from my playbook that are responsible for making sure that docker is installed. You can see the full sequence of tasks for installing docker and docker-compose [here](https://github.com/Dunklas/app-server/blob/main/playbooks/docker-install.yml).
 
 ```yaml
+- name: Set up the stable repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+    state: present
+    update_cache: yes
+- name: Update apt packages
+  apt:
+    update_cache: yes
 - name: Install docker
-  become: yes
-  block:
-    - name: Install docker packages
-      apt:
-        name: "{{ item }}"
-        state: present
-        update_cache: yes
-      with_items:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
-    - name: Add Docker s official GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-    - name: Verify that we have the key with the fingerprint
-      apt_key:
-        id: 0EBFCD88
-        state: present
-    - name: Set up the stable repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
-        state: present
-        update_cache: yes
-    - name: Update apt packages
-      apt:
-        update_cache: yes
-    - name: Install docker
-      apt:
-        name: docker-ce
-        state: present
-        update_cache: yes
+  apt:
+    name: docker-ce
+    state: present
+    update_cache: yes
 ```
 
 To tell Ansible what remote machine(s) to run a playbook on you provide an inventory file. This file can have many [different formats](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html), but the essence of it is that it describes what machines to run on, and optionally how Ansible should interact with the machine(s).
@@ -124,9 +103,27 @@ steps:
         main.yml
 ```
 
-So, in this way I can automatically install applications, run scripts, start services, etc on my newly created server.
+So, by running Ansible in my github actions workflow I can make sure that certain applications are installed on my new server after it has been created. Apart from installing docker and docker compose, I also need to have a reverse proxy up and running.
 
-## Nginx reverse proxy
+## Reverse proxy
 
+As reverse proxy I use [Frontman](https://github.com/DeviesDevelopment/frontman). Frontman spins up an nginx instance that redirects traffic to one of many locally running Docker containers based on the base URL of the incoming requests, which is exactly what we want to do.
 
-# Deploy services
+To use Frontman, you need to define what domain names it should redirect traffic for, and what local port traffic should be redirected to for each domain (i.e. what port the service is exposing). You do this in a `servers.json` file.
+```
+[
+    {
+        "server_name": "domain1.org",
+        "upstream_port": "8080",
+        "https": true
+    },
+    {
+        "server_name": "another-domain.org",
+        "upstream_port": "8665",
+        "https": false
+    }
+]
+```
+When `servers.json` is in place, run `make start` to launch an nginx instance that will redirect traffic for respective `server_name` to `upstream_port`.
+
+Now, how do I make sure that Frontman is automatically started on my new server? Ansible!!!
