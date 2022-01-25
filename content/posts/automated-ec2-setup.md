@@ -4,7 +4,7 @@ date: 2022-01-21T05:57:22+01:00
 tags: [ Automation, Infrastructure as Code, AWS, Terraform, Ansible, Github Actions]
 description: ""
 ---
-Lately I've been looking for a good way of hosting some personal projects. I wanted some non-serverless way (mostly to avoid cold starts) to host primarily APIs and websites. A colleague of mine has for a long time used a single virtual server (more specifically, an EC2 instance in AWS) where he runs multiple services inside docker containers. To enable access to each individual service, there is an nginx reverse proxy that forwards traffic to services. I decided to try the same approach.
+Lately I've been looking for a good way of hosting some personal projects in a non-serverless way. A colleague of mine has for a long time used a single virtual server (more specifically, an EC2 instance in AWS) where he runs multiple services inside docker containers. To enable access to each individual service, there is an nginx reverse proxy that forwards traffic to services. I decided to try the same approach.
 
 ![EC2 instance, with docker containers and nginx reverse proxy](/blog/ec2-docker.png)
 
@@ -20,7 +20,7 @@ In this post I will describe how I've automated this process. The automation wil
 
 First of all, I need a virtual server. As described above I'll go for an EC2 instance hosted in AWS. To have it deployed to my AWS account I use Terraform.
 
-Terraform is a great tool which lets you automate deployment of resources in different cloud environments (such as AWS, GCP, Azure). To use it, you describe what resources you need to create in templates (text files) with a language/syntax called HCL. Then, you use the Terraform CLI to *apply* these templates to your cloud environment. To apply means to create, update or delete resources in the cloud environment to reflect what you've described in your templates.
+Terraform is a great tool which lets you automate deployment of resources in different cloud environments (such as AWS, GCP, Azure). To use it, you describe what resources you need to create in templates with a language/syntax called HCL. Then, you use the Terraform CLI to *apply* these templates to your cloud environment. To apply means to create, update or delete resources in the cloud environment to reflect what you've described in your templates.
 
 Below is a subset of the template containing resources I need for my server. Apart from that the template also includes a bunch of network-related resources and domain names. You can see the full template [here](https://github.com/Dunklas/app-server/tree/main/iac).
 
@@ -47,7 +47,7 @@ output "server_ip" {
   value = aws_eip.ip.public_ip
 }
 ```
-The resource of type `aws_instance` describes the actual EC2 instance. It's of type `t2.micro` (a quite cheap one) and uses an ubuntu image. To deploy these resources I run a [github actions workflow](https://github.com/Dunklas/app-server/blob/main/.github/workflows/main.yml) where I use the Terraform CLI to have these resources created in my AWS account.
+The resource of type `aws_instance` describes the actual EC2 instance. It's of type `t2.micro` and uses an ubuntu image. To deploy these resources I run a [github actions workflow](https://github.com/Dunklas/app-server/blob/main/.github/workflows/main.yml) where I use the Terraform CLI to have these resources created in my AWS account.
 
 This will give me a new virtual server that runs Ubuntu, but there's still stuff left to do. I need to install docker and configure the nginx reverse proxy. In order to do this automatically in my github actions workflow I need to: (1) have knowledge about what IP address my new server have; (2) be able to access the new server via SSH.
 
@@ -107,23 +107,18 @@ So, by running Ansible in my github actions workflow I can make sure that certai
 
 ## Reverse proxy
 
-As reverse proxy I use [Frontman](https://github.com/DeviesDevelopment/frontman). Frontman spins up an nginx instance that redirects traffic to one of many locally running Docker containers based on the base URL of the incoming requests, which is exactly what we want to do.
+As reverse proxy I use [Frontman](https://github.com/DeviesDevelopment/frontman). Frontman launches an nginx instance that redirects traffic to one of many locally running Docker containers based on the base URL of the incoming requests, which is exactly what we want to do.
 
-To use Frontman, you need to define what domain names it should redirect traffic for, and what local port traffic should be redirected to for each domain (i.e. what port the service is exposing). You do this in a `servers.json` file.
-```
-[
-    {
-        "server_name": "domain1.org",
-        "upstream_port": "8080",
-        "https": true
-    },
-    {
-        "server_name": "another-domain.org",
-        "upstream_port": "8665",
-        "https": false
-    }
-]
-```
-When `servers.json` is in place, run `make start` to launch an nginx instance that will redirect traffic for respective `server_name` to `upstream_port`.
+To use Frontman, you need to create a configuration file that declares what domain names it should redirect traffic for. For each domain name, you also specify an upstream port that traffic will be redirected to. With the configuration file in place, you can launch Frontman by running `make start`.
 
-Now, how do I make sure that Frontman is automatically started on my new server? Ansible!!!
+Now, how do I make sure that Frontman is automatically started on my new server? Above I used Ansible to ensure that certain applications are installed on my server. However, you can use Ansible for much more than that.
+
+Each Ansible task uses a *[module](https://docs.ansible.com/ansible/latest/user_guide/modules_intro.html)*. To install docker I used modules such as [apt-repository](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_repository_module.html) and [apt](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html). To make sure Frontman is started I instead use the modules [git](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html), [copy](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html) and [make](https://docs.ansible.com/ansible/2.9/modules/make_module.html) in order to: (1) Clone the Frontman repository; (2) Copy configuration file to server; (3) Run `make start` to launch Frontman. You can see the full sequence of tasks [here](https://github.com/Dunklas/app-server/blob/main/playbooks/configure-proxy.yml).
+
+# Final thoughts
+
+I really enjoy infrastructure as code and automation in general. Since everything is described in code, I have a complete understanding of how I've configured my server, and of what resources I use in my AWS account. If the need should arise, I can tear down my server and recreate it from scratch just by running my github actions workflow. This gives me both comfort and confidence.
+
+I did not cover how I deploy services (docker containers) to the server in this post. There's actually a few different ways you could do this, which I might cover in a future post.
+
+If you're interested, everything I've described in this post is available in [this repository](https://github.com/Dunklas/app-server).
