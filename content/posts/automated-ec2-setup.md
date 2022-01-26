@@ -122,3 +122,5 @@ I really enjoy infrastructure as code and automation in general. Since everythin
 I did not cover how I deploy services (docker containers) to the server in this post. There's actually a few different ways you could do this, which I might cover in a future post.
 
 If you're interested, everything I've described in this post is available in [this repository](https://github.com/Dunklas/app-server).
+
+By Rickard Andersson
