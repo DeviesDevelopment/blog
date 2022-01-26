@@ -14,7 +14,7 @@ To accomplish this I will need a bunch of things. First of all I need an EC2 ins
 
 This calls for automation! Steps I take to deploy and configure the server can be described in code and executed by software. This has a lot of advantages. There's no risk of me forgetting how I've deployed and configured the server (since I have it described in code), and if I for some reason need to repeat the whole process, I can simply execute the steps again.
 
-In this post I will describe how I've automated this process. The automation runs in a [Github Actions](https://github.com/features/actions) workflow, where I use [Terraform](https://www.terraform.io/) and [Ansible](https://www.ansible.com/) to deploy and configure my server. Note that I will not go into detail on how to use the respective tools, but rather describe the general process of deploying and configuring my server with the tools.
+In this post I will describe how I've automated this process. The automation runs in a [Github Actions](https://github.com/features/actions) workflow where I use [Terraform](https://www.terraform.io/) and [Ansible](https://www.ansible.com/) to deploy and configure my server. Note that I will not go into detail on how to use the respective tools, but rather describe the general process of deploying and configuring my server with the tools.
 
 # Deploy server
 
@@ -83,7 +83,7 @@ To tell Ansible what remote machine(s) to run a playbook on you provide an inven
 
 To enable Ansible to authenticate to the server, I found it easiest to start an ssh-agent and use `ssh-add` to add the private key mentioned in the previous section.
 
-Below is a part of my github actions workflow (full version available [here](https://github.com/Dunklas/app-server/blob/main/.github/workflows/main.yml)) where I create an inventory file, start an ssh-agent and then runs my ansible playbook on the new server.
+Below is a part of my github actions workflow (full version available [here](https://github.com/Dunklas/app-server/blob/main/.github/workflows/main.yml)) where I create an inventory file, start an ssh-agent and then run my ansible playbook on the new server.
 
 ```yaml
 steps:
@@ -117,7 +117,7 @@ Each Ansible task uses a *[module](https://docs.ansible.com/ansible/latest/user_
 
 # Final thoughts
 
-I really enjoy infrastructure as code and automation in general. Since everything is described in code, I have a complete understanding of how I've configured my server, and of what resources I use in my AWS account. If the need should arise, I can tear down my server and recreate it from scratch just by running my github actions workflow. This gives me both comfort and confidence.
+I really enjoy infrastructure as code and automation in general. Since everything is described in code, I have a complete understanding of how I've configured my server and of what resources I use in my AWS account. If the need should arise, I can tear down my server and recreate it from scratch just by running my github actions workflow. This gives me both comfort and confidence.
 
 I did not cover how I deploy services (docker containers) to the server in this post. There's actually a few different ways you could do this, which I might cover in a future post.
 
