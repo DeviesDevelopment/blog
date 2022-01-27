@@ -15,9 +15,9 @@ This repository uses git submodules for hugo themes. To clone the repo, you must
 
 ### Write new post
 
-From the repository root, run `hugo new posts/my-title.md`.
+From the repository root, run `./new-post.sh "Some epic title"`.
 
-This will create a new file in `content/posts/my-title.md`, where you can write your content.
+This will create a new file in `content/posts/YYYY-MM-DD_some-epic-title.md`, where you can write your content.
 
 ### Run server locally
 
