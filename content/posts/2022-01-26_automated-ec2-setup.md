@@ -3,6 +3,7 @@ title: "How I've automated the setup of my virtual server"
 date: 2022-01-21T05:57:22+01:00
 tags: [ Automation, Infrastructure as Code, AWS, Terraform, Ansible, Github Actions]
 description: ""
+slug: "automated-ec2-setup"
 ---
 Lately I've been looking for a good way of hosting some personal projects. I wanted something relatively cheap which I could use to host multiple services. A colleague of mine have for a long time used a single virtual server (more specifically, an EC2 instance in AWS) where he runs multiple services inside docker containers. To enable access to each individual service, there's a nginx reverse proxy that forwards traffic to services. I decided to try the same approach.
 
