@@ -10,7 +10,7 @@ You need to have [Hugo CLI](https://gohugo.io/getting-started/installing) instal
 
 This repository uses git submodules for hugo themes. To clone the repo, you must either:
 
-- Run git clone with an additional flag: `git clone --recurse-submodules https://github.com/DeviesDevelopment/blog`
+- Run git clone with an additional flag: `git clone --recurse-submodules git@github.com:DeviesDevelopment/blog.git`
 - Run `git submodule update --init --recursive` after cloning the repository
 
 ### Write new post
