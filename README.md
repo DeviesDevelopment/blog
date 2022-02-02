@@ -2,6 +2,8 @@
 
 Blog by [Devies](https://www.devies.se/).
 
+Visit the blog at [deviesdevelopment.github.io/blog](https://deviesdevelopment.github.io/blog/).
+
 ## Requirements
 
 You need to have [Hugo CLI](https://gohugo.io/getting-started/installing) installed.
