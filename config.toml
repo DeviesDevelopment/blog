@@ -3,3 +3,4 @@ baseURL = "https://deviesdevelopment.github.io/blog"
 
 [params]
   site_logo = "/blog/logo.png"
+  favicon = "favicon.ico"
