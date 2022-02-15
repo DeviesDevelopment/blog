@@ -5,7 +5,7 @@
 <title></title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=description content>
-<meta name=generator content="Hugo 0.92.1">
+<meta name=generator content="Hugo 0.92.2">
 <meta name=ROBOTS content="NOINDEX, NOFOLLOW">
 <link rel=stylesheet href=/blog/ananke/css/main.min.css>
 <link href=/blog/tags/index.xml rel=alternate type=application/rss+xml title>
@@ -134,6 +134,33 @@ AWS recently (last year) released their new server-less database focused purely 
 </div>
 </div>
 </div>
+<div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=/blog/posts/implementation/aws/2021/04/08/minimize-java-lambda-coldstarts.html/ class="link black dim">
+Minimize Java Lambda Cold Start Times
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+If you have ever run Java inside a lambda function on AWS, you will have noticed the quite significant cold start times that comes with spinning up the JVM environment. In this post, I will discuss some different tricks you can use to minimize these cold start times.
+The problem with cold starts arises when there are no &ldquo;warm&rdquo; lambda available to handle an incoming request, which usually happens whenever an endpoint experiences a large and sudden spike in traffic.
+</div>
+</div>
+</div>
+<div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=/blog/posts/2021-03-30-dynamodb-migrations/ class="link black dim">
+Migrating data between DynamoDB tables
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+When setting up a new DynamoDB table, an important decision is to decide what primary key to use. However, it’s not uncommon to not have the full picture up front and therefore it could be hard to make the right decision beforehand. While the official AWS documentation states that “you shouldn’t start designing your schema for DynamoDB until you know the questions it will need to answer”, you often need to experiment to be able to discover what those questions are.
+</div>
+</div>
+</div>
 <h2 class=f1>
 <a href=/blog/tags/docker class="link blue hover-black">
 Tag: docker
@@ -150,6 +177,24 @@ Introducing Frontman
 <div class="nested-links f5 lh-copy nested-copy-line-height">
 Frontman is a very light-weight NGINX reverse proxy that is deployed using Docker. Its purpose is to act as the entry point to your server. It will redirect incoming traffic to one out of many Docker-based applications running on the same server, based on the hostname in the incoming request.
 The rationale behind this is that it enables you to host as many services as you want on the same server, while still only keeping ports 80 and 443 open to the outside world.
+</div>
+</div>
+</div>
+<h2 class=f1>
+<a href=/blog/tags/dynamodb class="link blue hover-black">
+Tag: dynamodb
+</a>
+</h2>
+<div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=/blog/posts/2021-03-30-dynamodb-migrations/ class="link black dim">
+Migrating data between DynamoDB tables
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+When setting up a new DynamoDB table, an important decision is to decide what primary key to use. However, it’s not uncommon to not have the full picture up front and therefore it could be hard to make the right decision beforehand. While the official AWS documentation states that “you shouldn’t start designing your schema for DynamoDB until you know the questions it will need to answer”, you often need to experiment to be able to discover what those questions are.
 </div>
 </div>
 </div>
@@ -186,6 +231,25 @@ How I've automated the setup of my virtual server
 </h1>
 <div class="nested-links f5 lh-copy nested-copy-line-height">
 Lately I&rsquo;ve been looking for a good way of hosting some personal projects. I wanted something relatively cheap which I could use to host multiple services. A colleague of mine have for a long time used a single virtual server (more specifically, an EC2 instance in AWS) where he runs multiple services inside docker containers. To enable access to each individual service, there&rsquo;s a nginx reverse proxy that forwards traffic to services.
+</div>
+</div>
+</div>
+<h2 class=f1>
+<a href=/blog/tags/java class="link blue hover-black">
+Tag: java
+</a>
+</h2>
+<div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=/blog/posts/implementation/aws/2021/04/08/minimize-java-lambda-coldstarts.html/ class="link black dim">
+Minimize Java Lambda Cold Start Times
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+If you have ever run Java inside a lambda function on AWS, you will have noticed the quite significant cold start times that comes with spinning up the JVM environment. In this post, I will discuss some different tricks you can use to minimize these cold start times.
+The problem with cold starts arises when there are no &ldquo;warm&rdquo; lambda available to handle an incoming request, which usually happens whenever an endpoint experiences a large and sudden spike in traffic.
 </div>
 </div>
 </div>

@@ -5,7 +5,7 @@
 <title>AWS | </title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=description content>
-<meta name=generator content="Hugo 0.92.1">
+<meta name=generator content="Hugo 0.92.2">
 <meta name=ROBOTS content="NOINDEX, NOFOLLOW">
 <link rel=stylesheet href=/blog/ananke/css/main.min.css>
 <link href=/blog/tags/aws/index.xml rel=alternate type=application/rss+xml title>
@@ -75,6 +75,37 @@ Trying out AWS Timestream
 <div class="nested-links f5 lh-copy nested-copy-line-height">
 AWS recently (last year) released their new server-less database focused purely on time series data, Amazon Timestream. On their product page, AWS describes the database like:
 &ldquo;Amazon Timestream is a fast, scalable, and serverless time series database service for IoT and operational applications that makes it easy to store and analyze trillions of events per day up to 1,000 times faster and at as little as 1/10th the cost of relational databases.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 mb4 bg-white">
+<div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=/blog/posts/implementation/aws/2021/04/08/minimize-java-lambda-coldstarts.html/ class="link black dim">
+Minimize Java Lambda Cold Start Times
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+If you have ever run Java inside a lambda function on AWS, you will have noticed the quite significant cold start times that comes with spinning up the JVM environment. In this post, I will discuss some different tricks you can use to minimize these cold start times.
+The problem with cold starts arises when there are no &ldquo;warm&rdquo; lambda available to handle an incoming request, which usually happens whenever an endpoint experiences a large and sudden spike in traffic.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 mb4 bg-white">
+<div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=/blog/posts/2021-03-30-dynamodb-migrations/ class="link black dim">
+Migrating data between DynamoDB tables
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+When setting up a new DynamoDB table, an important decision is to decide what primary key to use. However, it’s not uncommon to not have the full picture up front and therefore it could be hard to make the right decision beforehand. While the official AWS documentation states that “you shouldn’t start designing your schema for DynamoDB until you know the questions it will need to answer”, you often need to experiment to be able to discover what those questions are.
 </div>
 </div>
 </div>
