@@ -24,3 +24,11 @@ This will create a new file in `content/posts/YYYY-MM-DD_some-epic-title.md`, wh
 ### Run server locally
 
 From the repository root, run `hugo server -D` and navigate to [http://localhost:1313](http://localhost:1313) in your web browser.
+
+## Spell check
+
+    npm install -g yaspeller
+
+    yaspeller content
+
+Configure in `.yaspellerrc`.
