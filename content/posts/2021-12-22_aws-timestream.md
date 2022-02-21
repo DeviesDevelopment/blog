@@ -5,6 +5,8 @@ tags: [AWS, Timestream, Python]
 featured_image: ""
 description: "Trying out AWS Timestream in a small side project"
 slug: "aws-timestream"
+author:
+    - Fredrik Mile
 ---
 
 AWS recently (last year) released their new server-less database focused purely on time series data, Amazon Timestream. On their product page, AWS describes the database like:

@@ -7,6 +7,9 @@ tags:
 date: "2021-04-08T09:25:58Z"
 title: Minimize Java Lambda Cold Start Times
 slug: "implementation/aws/2021/04/08/minimize-java-lambda-coldstarts.html"
+author:
+  - Gustav Sundin
+  - Rickard Andersson
 ---
 
 If you have ever run Java inside a lambda function on AWS, you will have noticed the quite significant cold start times that comes with spinning up the JVM environment. In this post, I will discuss some different tricks you can use to minimize these cold start times.
