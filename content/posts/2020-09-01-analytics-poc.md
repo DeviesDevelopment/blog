@@ -3,6 +3,9 @@ categories:
   - Implementation
 date: "2020-09-01T00:00:00Z"
 title: Analytics without third-party tools
+author:
+  - Gustav Sundin
+  - Rickard Andersson
 ---
 
 Finding out how much traffic your site has and how your users interact with it is always crucial. Such information will enable you to scale your backend properly, fine-tune the user experience and weed out unused features. Some even go so far as claiming that data is the "gold of our time". Regardless of the truth of that claim, few can dispute the usefulness of user analytics data.
