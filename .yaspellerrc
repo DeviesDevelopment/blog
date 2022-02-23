@@ -33,6 +33,7 @@
     "linting",
     "RSS",
     "Github",
+    "github",
     "repo",
     "Kubernetes",
     "VPC",
@@ -70,6 +71,10 @@
     "hostname",
     "Fredrik",
     "Terraform",
-    "terraform"
+    "terraform",
+    "Containerization",
+    "linters",
+    "CI",
+    "TDD"
   ]
 }
