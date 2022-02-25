@@ -23,7 +23,7 @@ Here follows a few warning signs that you and your team face too long feedback l
 - *“Trust me, we should only need to set this up once, there is no need for automation here! Once it is set up, we can verify that everything works.”*
 - “*I wish I could run this locally...”*
 
-I’m not saying that long feedback loops are something that someone can just get rid of. Most often, they are long because of reasons. But, teams should be aware of the long feedback loops and threat them as technical debts. In the same way that teams work on technical debts from time to time, teams should also work on their feedback loops.
+I’m not saying that long feedback loops are something that someone can just get rid of. Most often, they are long because of reasons. But, teams should be aware of the long feedback loops and treat them as technical debts. In the same way that teams work on technical debts from time to time, teams should also work on their feedback loops.
 
 ## Some tips on how to shorten the feedback loop
 
