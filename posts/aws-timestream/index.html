@@ -2,10 +2,9 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>Trying out AWS Timestream | </title>
-<meta name=viewport content="width=device-width,minimum-scale=1">
+<title>Trying out AWS Timestream | </title><meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=description content="Trying out AWS Timestream in a small side project">
-<meta name=generator content="Hugo 0.92.2">
+<meta name=generator content="Hugo 0.93.1">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link rel=stylesheet href=/blog/ananke/css/main.min.ceb444b34b6d1508dbe3ab8cbf937a305a3f952886a8f52fbbb14068f75e1a94.css>
 <link rel="shortcut icon" href=/blog/favicon.ico type=image/x-icon>
@@ -22,8 +21,7 @@
 <meta itemprop=keywords content="AWS,Timestream,Python,"><meta name=twitter:card content="summary">
 <meta name=twitter:title content="Trying out AWS Timestream">
 <meta name=twitter:description content="Trying out AWS Timestream in a small side project">
-</head>
-<body class="ma0 avenir bg-near-white production">
+</head><body class="ma0 avenir bg-near-white production">
 <header>
 <div class=bg-black>
 <nav class="pv3 ph3 ph4-ns" role=navigation>
@@ -33,178 +31,91 @@
 </a>
 <div class="flex-l items-center">
 <div class=ananke-socials>
-</div>
-</div>
-</div>
-</nav>
-</div>
-</header>
-<main class=pb7 role=main>
+</div></div></div></nav></div></header><main class=pb7 role=main>
 <article class="flex-l flex-wrap justify-between mw8 center ph3">
 <header class="mt4 w-100">
 <aside class="instapaper_ignoref b helvetica tracked">
 POSTS
-</aside>
-<div id=sharing class="mt3 ananke-socials">
-</div>
-<h1 class="f1 athelas mt3 mb1">Trying out AWS Timestream</h1>
-<p class=tracked>
+</aside><div id=sharing class="mt3 ananke-socials">
+</div><h1 class="f1 athelas mt3 mb1">Trying out AWS Timestream</h1><p class=tracked>
 By <strong>
 Fredrik Mile
 </strong>
-</p>
-<time class="f6 mv4 dib tracked" datetime=2021-12-22T15:50:15+01:00>December 22, 2021</time>
-</header>
-<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>AWS recently (last year) released their new server-less database focused purely on time series data, Amazon Timestream. On their product page, AWS describes the database like:</p>
-<p><em>&ldquo;Amazon Timestream is a fast, scalable, and serverless time series database service for IoT and operational applications that makes it easy to store and analyze trillions of events per day up to 1,000 times faster and at as little as 1/10th the cost of relational databases."</em></p>
-<p>I wanted to find out <strong>how easy</strong> it was to use and if the cost would be negligible for a side project with very little traffic.</p>
-<h2 id=explanation-of-test-data>Explanation of test data</h2>
-<p>There&rsquo;s a new bridge between Hisingen and the mainland of Gothenburg called Hisingsbron. For large cargo ships and tall sailboats, a bridge opening needs to happen that causes the traffic to stop. Kindly, the city of Gothenburg offers an API for checking whether the bridge is open or closed at the moment you ask. I will use the bridge status over time as time-series data for trying out Amazon Timestream. A data example entry looks like this:</p>
-<pre tabindex=0><code>{
-    timestamp: &quot;2021-12-08 07:40:08&quot;,
-    status: &quot;Open&quot;
+</p><time class="f6 mv4 dib tracked" datetime=2021-12-22T15:50:15+01:00>December 22, 2021</time>
+</header><div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>AWS recently (last year) released their new server-less database focused purely on time series data, Amazon Timestream. On their product page, AWS describes the database like:</p><p><em>&ldquo;Amazon Timestream is a fast, scalable, and serverless time series database service for IoT and operational applications that makes it easy to store and analyze trillions of events per day up to 1,000 times faster and at as little as 1/10th the cost of relational databases.&rdquo;</em></p><p>I wanted to find out <strong>how easy</strong> it was to use and if the cost would be negligible for a side project with very little traffic.</p><h2 id=explanation-of-test-data>Explanation of test data</h2><p>There&rsquo;s a new bridge between Hisingen and the mainland of Gothenburg called Hisingsbron. For large cargo ships and tall sailboats, a bridge opening needs to happen that causes the traffic to stop. Kindly, the city of Gothenburg offers an API for checking whether the bridge is open or closed at the moment you ask. I will use the bridge status over time as time-series data for trying out Amazon Timestream. A data example entry looks like this:</p><pre tabindex=0><code>{
+    timestamp: &#34;2021-12-08 07:40:08&#34;,
+    status: &#34;Open&#34;
 }
-</code></pre><h2 id=is-aws-timestream-easy-to-use>Is AWS Timestream easy to use?</h2>
-<p>I wanted to use Python to manage the Timestream database since it is the most widely used data science programming language in the world today. The documentation for using the Timestream database consists only of <a href=https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.html>code samples</a> (good code samples though!). But, here are my takeaways from managing a Timestream database using Python.</p>
-<p><strong>Getting started</strong></p>
-<ul>
+</code></pre><h2 id=is-aws-timestream-easy-to-use>Is AWS Timestream easy to use?</h2><p>I wanted to use Python to manage the Timestream database since it is the most widely used data science programming language in the world today. The documentation for using the Timestream database consists only of <a href=https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.html>code samples</a> (good code samples though!). But, here are my takeaways from managing a Timestream database using Python.</p><p><strong>Getting started</strong></p><ul>
 <li>The official AWS SDK for Python is called <strong><a href=https://boto3.amazonaws.com/v1/documentation/api/latest/index.html>Boto3</a></strong>.
 <ul>
-<li>The authentication to AWS is handled smoothly using AWS profiles or environment variables. No authentication is needed to be part of the actual code.</li>
-</ul>
-</li>
-<li>The SDK supports CRUD operations on the database itself.
+<li>The authentication to AWS is handled smoothly using AWS profiles or environment variables. No authentication is needed to be part of the actual code.</li></ul></li><li>The SDK supports CRUD operations on the database itself.
 <ul>
-<li>Listing tables, deleting tables, deleting databases, and much more.</li>
-</ul>
-</li>
-<li>Writing and reading operations requires two different clients that are created like:</li>
-</ul>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>SESSION <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>Session()
-CLIENT_CONFIG <span style=color:#f92672>=</span> Config(
-    read_timeout<span style=color:#f92672>=</span><span style=color:#ae81ff>20</span>, max_pool_connections<span style=color:#f92672>=</span><span style=color:#ae81ff>5000</span>, retries<span style=color:#f92672>=</span>{<span style=color:#e6db74>&#34;max_attempts&#34;</span>: <span style=color:#ae81ff>10</span>}
-)
-
-CLIENT_WRITE <span style=color:#f92672>=</span> SESSION<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#34;timestream-write&#34;</span>, config<span style=color:#f92672>=</span>CLIENT_CONFIG)
-CLIENT_QUERY <span style=color:#f92672>=</span> SESSION<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#34;timestream-query&#34;</span>)
-</code></pre></div><p><strong>Writing a record</strong></p>
-<ul>
+<li>Listing tables, deleting tables, deleting databases, and much more.</li></ul></li><li>Writing and reading operations requires two different clients that are created like:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>SESSION <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>Session()
+</span></span><span style=display:flex><span>CLIENT_CONFIG <span style=color:#f92672>=</span> Config(
+</span></span><span style=display:flex><span>    read_timeout<span style=color:#f92672>=</span><span style=color:#ae81ff>20</span>, max_pool_connections<span style=color:#f92672>=</span><span style=color:#ae81ff>5000</span>, retries<span style=color:#f92672>=</span>{<span style=color:#e6db74>&#34;max_attempts&#34;</span>: <span style=color:#ae81ff>10</span>}
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>CLIENT_WRITE <span style=color:#f92672>=</span> SESSION<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#34;timestream-write&#34;</span>, config<span style=color:#f92672>=</span>CLIENT_CONFIG)
+</span></span><span style=display:flex><span>CLIENT_QUERY <span style=color:#f92672>=</span> SESSION<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#34;timestream-query&#34;</span>)
+</span></span></code></pre></div><p><strong>Writing a record</strong></p><ul>
 <li>
-<p>A record in an AWS Timestream has the following attributes:</p>
-<ul>
-<li><strong>Dimension:</strong> Metadata in the form of key-value pairs.</li>
-<li><strong>MesaureName:</strong> The name of the measure, for instance, the name of the bridge.</li>
-<li><strong>MeasureValue:</strong> The value to be stored. In this example Open or Closed.</li>
-<li><strong>MeasureValueType:</strong> Type of the Value.</li>
-<li><strong>Time</strong>: The timestamp.</li>
-</ul>
-<p>This way of defining a record makes it very user-friendly for collecting data from multiple sources. If one collects data from 10 different bridges, the data can then be stored together, but separated on <strong>MeasureName</strong> and Dimension. There are no requirements that all records need to have the same <strong>MeasureValueType,</strong> etc. Here&rsquo;s a snippet for writing records to a table.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>records <span style=color:#f92672>=</span> [
-	{
-    <span style=color:#e6db74>&#34;Dimensions&#34;</span>: [{<span style=color:#e6db74>&#34;Name&#34;</span>: <span style=color:#f92672>&lt;</span>MetaDataName<span style=color:#f92672>&gt;</span>, <span style=color:#e6db74>&#34;Value&#34;</span>: <span style=color:#f92672>&lt;</span>MetaDataValue<span style=color:#f92672>&gt;</span>}]
-    <span style=color:#e6db74>&#34;MeasureName&#34;</span>: <span style=color:#e6db74>&#34;Hisingsbron&#34;</span>,
-    <span style=color:#e6db74>&#34;MeasureValue&#34;</span>: <span style=color:#f92672>&lt;</span>value<span style=color:#f92672>&gt;</span>,
-    <span style=color:#e6db74>&#34;MeasureValueType&#34;</span>: <span style=color:#e6db74>&#34;VARCHAR&#34;</span>,
-    <span style=color:#e6db74>&#34;Time&#34;</span>: <span style=color:#f92672>&lt;</span>timestamp<span style=color:#f92672>&gt;</span>,
-	}
-]
-<span style=color:#66d9ef>try</span>:
-	result <span style=color:#f92672>=</span> CLIENT_WRITE<span style=color:#f92672>.</span>write_records(
-	  DatabaseName<span style=color:#f92672>=</span>DATABASE_NAME,
-	  TableName<span style=color:#f92672>=</span>TABLE_NAME,
-	  Records<span style=color:#f92672>=</span>records,
-	  CommonAttributes<span style=color:#f92672>=</span>{},
-	)
-  result_status_code <span style=color:#f92672>=</span> result[<span style=color:#e6db74>&#34;ResponseMetadata&#34;</span>][<span style=color:#e6db74>&#34;HTTPStatusCode&#34;</span>]
-  LOGGER<span style=color:#f92672>.</span>info(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Writing ended with status </span><span style=color:#e6db74>{</span>result_status_code<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
-<span style=color:#66d9ef>except</span> CLIENT_WRITE<span style=color:#f92672>.</span>exceptions<span style=color:#f92672>.</span>RejectedRecordsException <span style=color:#66d9ef>as</span> err:
-    LOGGER<span style=color:#f92672>.</span>exception(<span style=color:#e6db74>&#34;Failed to write to database&#34;</span>)
-</code></pre></div><p>Executing the above write will end up like this in the table:</p>
-<table>
+<p>A record in an AWS Timestream has the following attributes:</p><ul>
+<li><strong>Dimension:</strong> Metadata in the form of key-value pairs.</li><li><strong>MesaureName:</strong> The name of the measure, for instance, the name of the bridge.</li><li><strong>MeasureValue:</strong> The value to be stored. In this example Open or Closed.</li><li><strong>MeasureValueType:</strong> Type of the Value.</li><li><strong>Time</strong>: The timestamp.</li></ul><p>This way of defining a record makes it very user-friendly for collecting data from multiple sources. If one collects data from 10 different bridges, the data can then be stored together, but separated on <strong>MeasureName</strong> and Dimension. There are no requirements that all records need to have the same <strong>MeasureValueType,</strong> etc. Here&rsquo;s a snippet for writing records to a table.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>records <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Dimensions&#34;</span>: [{<span style=color:#e6db74>&#34;Name&#34;</span>: <span style=color:#f92672>&lt;</span>MetaDataName<span style=color:#f92672>&gt;</span>, <span style=color:#e6db74>&#34;Value&#34;</span>: <span style=color:#f92672>&lt;</span>MetaDataValue<span style=color:#f92672>&gt;</span>}]
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;MeasureName&#34;</span>: <span style=color:#e6db74>&#34;Hisingsbron&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;MeasureValue&#34;</span>: <span style=color:#f92672>&lt;</span>value<span style=color:#f92672>&gt;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;MeasureValueType&#34;</span>: <span style=color:#e6db74>&#34;VARCHAR&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Time&#34;</span>: <span style=color:#f92672>&lt;</span>timestamp<span style=color:#f92672>&gt;</span>,
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>]
+</span></span><span style=display:flex><span><span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>	result <span style=color:#f92672>=</span> CLIENT_WRITE<span style=color:#f92672>.</span>write_records(
+</span></span><span style=display:flex><span>	  DatabaseName<span style=color:#f92672>=</span>DATABASE_NAME,
+</span></span><span style=display:flex><span>	  TableName<span style=color:#f92672>=</span>TABLE_NAME,
+</span></span><span style=display:flex><span>	  Records<span style=color:#f92672>=</span>records,
+</span></span><span style=display:flex><span>	  CommonAttributes<span style=color:#f92672>=</span>{},
+</span></span><span style=display:flex><span>	)
+</span></span><span style=display:flex><span>  result_status_code <span style=color:#f92672>=</span> result[<span style=color:#e6db74>&#34;ResponseMetadata&#34;</span>][<span style=color:#e6db74>&#34;HTTPStatusCode&#34;</span>]
+</span></span><span style=display:flex><span>  LOGGER<span style=color:#f92672>.</span>info(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Writing ended with status </span><span style=color:#e6db74>{</span>result_status_code<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>except</span> CLIENT_WRITE<span style=color:#f92672>.</span>exceptions<span style=color:#f92672>.</span>RejectedRecordsException <span style=color:#66d9ef>as</span> err:
+</span></span><span style=display:flex><span>    LOGGER<span style=color:#f92672>.</span>exception(<span style=color:#e6db74>&#34;Failed to write to database&#34;</span>)
+</span></span></code></pre></div><p>Executing the above write will end up like this in the table:</p><table>
 <thead>
 <tr>
-<th style=text-align:center>MetaDataName</th>
-<th style=text-align:center>mesaure_name</th>
-<th style=text-align:center>time</th>
-<th style=text-align:center>measure_value::varchar</th>
-</tr>
-</thead>
-<tbody>
+<th style=text-align:center>MetaDataName</th><th style=text-align:center>mesaure_name</th><th style=text-align:center>time</th><th style=text-align:center>measure_value::varchar</th></tr></thead><tbody>
 <tr>
-<td style=text-align:center>MetaDataValue</td>
-<td style=text-align:center>Hisingsbron</td>
-<td style=text-align:center>timestamp</td>
-<td style=text-align:center>value</td>
-</tr>
-</tbody>
-</table>
-</li>
-</ul>
-<p><strong>Reading a record</strong></p>
-<ul>
-<li>AWS Timestream has a query language that is very similar to SQL but more optimized for time series data. The query for fetching the data for the last X days looks like this:</li>
-</ul>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#66d9ef>SELECT</span> <span style=color:#e6db74>&#34;measure_value::varchar&#34;</span>, <span style=color:#e6db74>&#34;time&#34;</span> <span style=color:#66d9ef>FROM</span> <span style=color:#f92672>&lt;</span>database_name<span style=color:#f92672>&gt;</span>.<span style=color:#f92672>&lt;</span><span style=color:#66d9ef>table_name</span><span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>WHERE</span> time <span style=color:#f92672>&gt;=</span> AGO(Xd)
-</code></pre></div><p>The above query can be executed using Python as:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pages <span style=color:#f92672>=</span> []
-<span style=color:#66d9ef>try</span>:
-    page_iterator <span style=color:#f92672>=</span> CLIENT_QUERY<span style=color:#f92672>.</span>get_paginator(<span style=color:#e6db74>&#39;query&#39;</span>)<span style=color:#f92672>.</span>paginate(QueryString<span style=color:#f92672>=&lt;</span>sql_query<span style=color:#f92672>&gt;</span>)
-    <span style=color:#66d9ef>for</span> page <span style=color:#f92672>in</span> page_iterator:
-        pages<span style=color:#f92672>.</span>append(page)
-<span style=color:#66d9ef>except</span> <span style=color:#a6e22e>Exception</span> <span style=color:#66d9ef>as</span> err:
-    print(<span style=color:#e6db74>&#34;Exception while running query:&#34;</span>, err)
-
-</code></pre></div><p><strong>Deleting and modifying records</strong></p>
-<ul>
-<li>It is possible to modify entries in the database but currently, AWS Timestream does not support the deletion of entries. Yet.</li>
-</ul>
-<h2 id=is-the-cost-negligible-for-a-project-like-this>Is the cost negligible for a project like this?</h2>
-<p>The pricing model for AWS Timestream can be found <a href=https://aws.amazon.com/timestream/pricing/>here</a>, but relevant information for a use-case like this example is:</p>
-<p><strong>Writes:</strong> 1 million write of 1KB size ⇒ $0.6035</p>
-<p><strong>Queries:</strong> Per GB scanned ⇒ $0.012</p>
-<p>I&rsquo;ve collected data for 3 months which corresponds to ~<strong>3000 records,</strong> and the database is queried ~15 times a day for <strong>~1000</strong> records each time.</p>
-<p>The total cost has been $0.01, meaning that the cost is very negligible!</p>
-<h2 id=conclusion>Conclusion</h2>
-<p>AWS Timestream should be considered when choosing a database for time series data. It feels like it is made for gathering data from multiple to facilitate further analysis. With reasonable amounts of data (whatever that is), the price seems to be good, and for minimal side projects, the price is very good. The drawback is that it does not support the deletion of records but it will probably be a feature in the future.</p>
-<p>By Fredrik Mile</p>
-<ul class=pa0>
+<td style=text-align:center>MetaDataValue</td><td style=text-align:center>Hisingsbron</td><td style=text-align:center>timestamp</td><td style=text-align:center>value</td></tr></tbody></table></li></ul><p><strong>Reading a record</strong></p><ul>
+<li>AWS Timestream has a query language that is very similar to SQL but more optimized for time series data. The query for fetching the data for the last X days looks like this:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#e6db74>&#34;measure_value::varchar&#34;</span>, <span style=color:#e6db74>&#34;time&#34;</span> <span style=color:#66d9ef>FROM</span> <span style=color:#f92672>&lt;</span>database_name<span style=color:#f92672>&gt;</span>.<span style=color:#f92672>&lt;</span><span style=color:#66d9ef>table_name</span><span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>WHERE</span> time <span style=color:#f92672>&gt;=</span> AGO(Xd)
+</span></span></code></pre></div><p>The above query can be executed using Python as:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>pages <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span><span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>    page_iterator <span style=color:#f92672>=</span> CLIENT_QUERY<span style=color:#f92672>.</span>get_paginator(<span style=color:#e6db74>&#39;query&#39;</span>)<span style=color:#f92672>.</span>paginate(QueryString<span style=color:#f92672>=&lt;</span>sql_query<span style=color:#f92672>&gt;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> page <span style=color:#f92672>in</span> page_iterator:
+</span></span><span style=display:flex><span>        pages<span style=color:#f92672>.</span>append(page)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>except</span> <span style=color:#a6e22e>Exception</span> <span style=color:#66d9ef>as</span> err:
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;Exception while running query:&#34;</span>, err)
+</span></span></code></pre></div><p><strong>Deleting and modifying records</strong></p><ul>
+<li>It is possible to modify entries in the database but currently, AWS Timestream does not support the deletion of entries. Yet.</li></ul><h2 id=is-the-cost-negligible-for-a-project-like-this>Is the cost negligible for a project like this?</h2><p>The pricing model for AWS Timestream can be found <a href=https://aws.amazon.com/timestream/pricing/>here</a>, but relevant information for a use-case like this example is:</p><p><strong>Writes:</strong> 1 million write of 1KB size ⇒ $0.6035</p><p><strong>Queries:</strong> Per GB scanned ⇒ $0.012</p><p>I&rsquo;ve collected data for 3 months which corresponds to ~<strong>3000 records,</strong> and the database is queried ~15 times a day for <strong>~1000</strong> records each time.</p><p>The total cost has been $0.01, meaning that the cost is very negligible!</p><h2 id=conclusion>Conclusion</h2><p>AWS Timestream should be considered when choosing a database for time series data. It feels like it is made for gathering data from multiple to facilitate further analysis. With reasonable amounts of data (whatever that is), the price seems to be good, and for minimal side projects, the price is very good. The drawback is that it does not support the deletion of records but it will probably be a feature in the future.</p><p>By Fredrik Mile</p><ul class=pa0>
 <li class=list>
 <a href=/blog/tags/aws class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">AWS</a>
-</li>
-<li class=list>
+</li><li class=list>
 <a href=/blog/tags/timestream class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Timestream</a>
-</li>
-<li class=list>
+</li><li class=list>
 <a href=/blog/tags/python class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Python</a>
-</li>
-</ul>
-<div class="mt6 instapaper_ignoref">
-</div>
-</div>
-<aside class="w-30-l mt6-l">
+</li></ul><div class="mt6 instapaper_ignoref">
+</div></div><aside class="w-30-l mt6-l">
 <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-<p class="f5 b mb3">Related</p>
-<ul class="pa0 list">
+<p class="f5 b mb3">Related</p><ul class="pa0 list">
 <li class=mb2>
 <a href=/blog/posts/implementation/aws/2021/04/08/minimize-java-lambda-coldstarts.html/>Minimize Java Lambda Cold Start Times</a>
-</li>
-<li class=mb2>
+</li><li class=mb2>
 <a href=/blog/posts/2021-03-30-dynamodb-migrations/>Migrating data between DynamoDB tables</a>
-</li>
-</ul>
-</div>
-</aside>
-</article>
-</main>
-<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+</li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
 <div class="flex justify-between">
 <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://deviesdevelopment.github.io/blog>
 &copy;
 </a>
 <div>
 <div class=ananke-socials>
-</div></div>
-</div>
-</footer>
-</body>
-</html>
+</div></div></div></footer></body></html>
