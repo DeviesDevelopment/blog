@@ -21,6 +21,8 @@ From the repository root, run `./new-post.sh "Some epic title"`.
 
 This will create a new file in `content/posts/YYYY-MM-DD_some-epic-title.md`, where you can write your content.
 
+Don't know what to write about? Have a look in the [topics list](topics.md)!
+
 ### Run server locally
 
 From the repository root, run `hugo server -D` and navigate to [http://localhost:1313](http://localhost:1313) in your web browser.
