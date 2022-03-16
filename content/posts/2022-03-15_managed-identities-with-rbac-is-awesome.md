@@ -23,3 +23,24 @@ Ok, that works for the App Service, what about local development?
  - Use DefaultAzureCredential (same code, different authentication methods)
 
 Show small code examples in terraform (any sensible person uses iac anyway) 
+
+```hcl
+resource "azurerm_app_service" "example" {
+  name = "my-app-service"
+  ...
+  identity {
+    type = SystemAssigned
+  }
+}
+
+resource "azurerm_app_configuration" "example" {
+  name                = "my-app-config"
+  ...
+}
+
+resource "azurerm_role_assignment" "example" {
+  scope                = azurerm_app_configuration.example.id
+  role_definition_name = "App Configuration Data Reader"
+  principal_id         = azurerm_app_service.example.identity[0].principal_id
+}
+```
