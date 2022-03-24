@@ -56,6 +56,6 @@ By using `DefaultAzureCredential`, our code will attempt to use several differen
 
 ___
 
-With managed identities and RBAC we rid ourselves of managing credentials ourselves. It's more secure to let Azure handle concerns like this for us. Additionally, we gain a better developer experience by removing manual steps needed to have the developer environment up and running.
+With managed identities and RBAC we rid ourselves of the need to manage credentials. It's more secure to let Azure handle concerns like this for us. Additionally, we gain a better developer experience by removing manual steps needed to have the developer environment up and running.
 
 Note that managed identities and RBAC is in no way limited to Azure App Config. You can use this authentication/authorization mechanism for a lot of Azure resources. It's still in preview for some though.
