@@ -9,13 +9,13 @@ author:
   - Rickard Andersson
 ---
 
-In a project I work with we use [Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/overview) for hosting an ASP.NET application. All external configuration used by the application is stored in an [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) store. I recently updated how the application authenticates toward the App Configuration store and think it worked out pretty good.
+In a project I work with we use [Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/overview) for hosting an ASP.NET application. All external configuration used by the application is stored in an [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) store. I recently updated how the application authenticates toward the App Configuration store and think it worked out pretty well.
 
 Prior to the change we used connection strings (i.e. a string containing endpoint, username and password) for authentication. The main drawback with this is that we have to manage the credentials ourselves. We must provide the connection string to the application in some way (e.g. set it in a CI/CD pipeline after deploying our application). If our connection string is compromised, we must regenerate it and make sure that the application is provided with the new one.
 
 Additionally, when running our application locally the connection string must be accessible. It'd be super bad to store the connection string in source control, so each developer need to obtain the connection string and store it locally in some way, e.g. with [dotnet user-secrets](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=linux)).
 
-Instead of connection strings, we now use a [managed identity](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) together with role-based access control (RBAC). This means that the App Service has an identity in Azure Active Directory, completely managed by Azure. We don't need to care about any credentials, the authentication just works. To manage what services/resources the managed identity can access, we assign roles to it, with a proper scope.
+Instead of connection strings, we now use a [managed identity](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) together with role-based access control (RBAC). This means that the App Service has an identity in Azure Active Directory, completely managed by Azure. We don't need to care about any credentials, the authentication just works. To manage what services/resources the managed identity can access, we assign roles to the managed identity, with a proper scope.
 
 If you're using terraform, the relevant changes you need to make will look something like below.
 
@@ -53,5 +53,9 @@ builder.Host.ConfigureAppConfiguration(builder =>
 ```
 
 By using `DefaultAzureCredential`, our code will attempt to use several different credential providers. So, while the application is running in Azure App Service, it'll use the `ManagedIdentityCredential`, while it can fall back to something like `AzureCliCredential` or `VisualStudioCodeCredential` while we run the application locally. All we need to do to make this work is to ensure that all personal developer accounts has the proper Azure AD roles (e.g. `App Configuration Data Reader`).
+
+___
+
+With managed identities and RBAC we rid ourselves of managing credentials ourselves. It's more secure to let Azure handle concerns like this for us. Additionally, we gain a better developer experience by removing manual steps needed to have the developer environment up and running.
 
 Note that managed identities and RBAC is in no way limited to Azure App Config. You can use this authentication/authorization mechanism for a lot of Azure resources. It's still in preview for some though.
