@@ -1,7 +1,7 @@
 ---
-title: "Managed Identities and RBAC is great"
+title: "Using managed identities and role based access control is great!"
 date: 2022-03-15T20:15:15+01:00
-tags: []
+tags: [ "Azure", "RBAC" "Azure AD" ]
 featured_image: ""
 description: ""
 slug: "managed-identities-and-rbac-is-great"
