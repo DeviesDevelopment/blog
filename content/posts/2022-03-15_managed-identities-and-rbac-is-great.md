@@ -15,6 +15,8 @@ Prior to the change we used connection strings (i.e. a string containing endpoin
 
 Additionally, when running our application locally the connection string must be accessible. It'd be super bad to store the connection string in source control, so each developer need to obtain the connection string and store it locally in some way, e.g. with [dotnet user-secrets](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=linux)).
 
+___
+
 Instead of connection strings, we now use a [managed identity](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) together with role-based access control (RBAC). This means that the App Service has an identity in Azure Active Directory, completely managed by Azure. We don't need to care about any credentials, the authentication just works. To manage what services/resources the managed identity can access, we assign roles to the managed identity, with a proper scope.
 
 If you're using terraform, the relevant changes you need to make will look something like below.
@@ -40,7 +42,9 @@ resource "azurerm_role_assignment" "example" {
 }
 ```
 
-We add an `identity` block to the `azurerm_app_service` in order to have a managed identity created. To assign roles to the managed identity we use the `azurerm_role_assignment` resource.
+By adding a `identity` block of type `SystemAssigned` a managed identity will be generated for the App Service. The principal_id of the managed identity is exposed in the `.identity[0].principal_id` attribute of the App Service. We must use this id to assign roles to the newly created managed identity (see the `azurerm_role_assignment` resource).
+
+___
 
 What about running our application locally? As I mentioned above, with connection strings you must make sure you have the connection string available locally in some way. Turns out this is way simpler when using RBAC. The key to it all is the `DefaultAzureCredential` class provided by the [Azure.Identity](https://www.nuget.org/packages/Azure.Identity/) library.
 
