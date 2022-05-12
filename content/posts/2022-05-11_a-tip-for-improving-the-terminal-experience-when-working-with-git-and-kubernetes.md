@@ -1,9 +1,9 @@
 ---
-title: "A Tip for Improving the Terminal Experience When Working With Git and/or Kubernetes"
+title: "Better Terminal Experience for Git and Kubernetes"
 date: 2022-05-11T21:04:31+02:00
 tags: [terminal, git, kubernetes]
 featured_image: ""
-description: "A Tip for Improving the Terminal Experience When Working With Git and/or Kubernetes"
+description: "A Tip for Improving the Terminal Experience When Working With Git and Kubernetes"
 author:
   - Fredrik Mile
 slug: "a-tip-for-improving-the-terminal-experience-when-working-with-git-and-kubernetes"
@@ -11,7 +11,7 @@ slug: "a-tip-for-improving-the-terminal-experience-when-working-with-git-and-kub
 
 When working on a project that uses **git**, it is essential to checkout the correct branch. You don't want to realize after a few hours of work that you worked on the wrong branch and have a few messy merges and rebases in front of you. Of course, the easiest way to show the current branch is to run `git status` but that requires an action from you, Instead, I recommend you to include the git branch as part of your prompt string. The prompt string is the string that marks your command line and is set by the shell variable `PS1`. 
 
-You could configure the shell variable `PS1` yourselves, but it is much simpler to use the `zsh` terminal and an appropriate theme. [Instructions for installing zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH) and [here is a list of zsh themes](https://zshthem.es/all/).
+You could configure the shell variable `PS1` yourself, but it is much simpler to use the `zsh` terminal and an appropriate theme. [Instructions for installing zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH) and [here is a list of zsh themes](https://zshthem.es/all/).
 
 ---
 
