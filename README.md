@@ -4,20 +4,11 @@ Blog by [Devies](https://www.devies.se/).
 
 Visit the blog at [deviesdevelopment.github.io/blog](https://deviesdevelopment.github.io/blog/).
 
-## Requirements
-
-You need to have [Hugo CLI](https://gohugo.io/getting-started/installing) installed.
-
 ## Getting started
-
-This repository uses git submodules for hugo themes. To clone the repo, you must either:
-
-- Run git clone with an additional flag: `git clone --recurse-submodules git@github.com:DeviesDevelopment/blog.git`
-- Run `git submodule update --init --recursive` after cloning the repository
 
 ### Write new post
 
-From the repository root, run `./new-post.sh "Some epic title"`.
+Clone the repository, navigate to the repository root and run `./new-post.sh "Some epic title"`.
 
 This will create a new file in `content/posts/YYYY-MM-DD_some-epic-title.md`, where you can write your content.
 
@@ -25,7 +16,13 @@ Don't know what to write about? Have a look in the [topics list](topics.md)!
 
 ### Run server locally
 
-From the repository root, run `hugo server -D` and navigate to [http://localhost:1313](http://localhost:1313) in your web browser.
+If you want to preview how your post will look like, you can start a local server.
+
+ 1. Make sure you have [Hugo CLI](https://gohugo.io/getting-started/installing) installed.
+ 2. Update submodules: `git submodule update --init --recursive`
+    - Required sinche git submodules is used for hugo themes
+ 3. From the repository root, run `hugo server -D`
+ 4. Visit [http://localhost:1313](http://localhost:1313) in your web browser!
 
 ## Spell check
 
