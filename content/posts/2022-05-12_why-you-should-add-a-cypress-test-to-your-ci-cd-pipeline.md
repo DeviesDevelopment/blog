@@ -12,7 +12,7 @@ Cypress is a framework for testing web applications, primarily used for end-to-e
 
 ---
 
-With end-to-end tests you can test a lot of aspects of your application with very little test code. Below is basically the simplest test you can write with Cypress.
+With end-to-end tests you can test a lot of aspects of your application with very little test code. Below is basically the simplest test you can write with cypress.
 
 ```javascript
 it('should load main page', () => {
@@ -40,10 +40,10 @@ For above reasons, you should not strive for "full coverage" in your end-to-end 
 
 ---
 
-When you're about to add your new Cypress test to your CI/CD pipeline, you'll probably ask yourself at what stage in the pipeline that you should run the test. I think there are two answers to that question: (1) As early as possible; (2) All of them.
+When you're about to add your new cypress test to your CI/CD pipeline, you'll probably ask yourself at what stage in the pipeline that you should run the test. I think there are two answers to that question: (1) As early as possible; (2) All of them.
 
 By running the test as early as possible (preferably after a pull request has been opened), you get quick feedback and can prevent critical issues from entering the main branch in your codebase. However, there's no reason to stop there. You can repeat the test towards each environment (e.g. dev, qa, prod) that you deploy your application to. This will let you to discover if anything in your infrastructure is causing the application to fail, and hopefully prevent the change from reaching production.
 
 ---
 
-It's really easy to get started and have a simple test running in your CI/CD pipeline. Even if the test is simple, it may prevent critical issues from affecting end users. Additionally, it gives you a solid foundation from which you can extend the test suite with more important user flows. This (cheap) investment is worth it, really. If you want to get started with Cypress, check out the [official documentation](https://docs.cypress.io/guides/getting-started/installing-cypress). Thanks for reading!
+It's really easy to get started and have a simple test running in your CI/CD pipeline. Even if the test is simple, it may prevent critical issues from affecting end users. Additionally, it gives you a solid foundation from which you can extend the test suite with more important user flows. This (cheap) investment is worth it, really. If you want to get started with cypress, check out the [official documentation](https://docs.cypress.io/guides/getting-started/installing-cypress). Thanks for reading!
