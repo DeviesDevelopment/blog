@@ -12,7 +12,7 @@ Cypress is a framework for testing web applications, primarily used for end-to-e
 
 ---
 
-With end-to-end tests you can test a lot of aspects of your application with very little test code. Below is basically the simplest test you can write with cypress.
+In end-to-end tests with cypress you can test a lot of aspects of your application with very little test code. Below is basically the simplest test you can write with cypress.
 
 ```javascript
 it('should load main page', () => {
