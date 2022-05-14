@@ -46,4 +46,4 @@ By running the test as early as possible (preferably after a pull request has be
 
 ---
 
-It's really easy to get started and have a simple test running in your CI/CD pipeline. Even if the test is simple, it may prevent critical issues from affecting end users. Additionally, it gives you a solid foundation from which you can extend the test suite with more important user flows. This (cheap) investment is worth it, really. Thanks for reading!
+It's really easy to get started and have a simple test running in your CI/CD pipeline. Even if the test is simple, it may prevent critical issues from affecting end users. Additionally, it gives you a solid foundation from which you can extend the test suite with more important user flows. This (cheap) investment is worth it, really. If you want to get started with Cypress, check out the [official documentation](https://docs.cypress.io/guides/getting-started/installing-cypress). Thanks for reading!
