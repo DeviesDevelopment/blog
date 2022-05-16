@@ -22,7 +22,7 @@ If you want to preview how your post will look like, you can start a local serve
  2. Update submodules: `git submodule update --init --recursive`
     - Required sinche git submodules is used for hugo themes
  3. From the repository root, run `hugo server -D`
- 4. Visit [http://localhost:1313](http://localhost:1313) in your web browser!
+ 4. Visit [http://localhost:1313/blog](http://localhost:1313/blog) in your web browser!
 
 ## Spell check
 
