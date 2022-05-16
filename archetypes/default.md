@@ -5,4 +5,6 @@ tags: []
 featured_image: ""
 description: ""
 slug: "{{ index (split .File.ContentBaseName "_") 1 }}"
+author:
+ - Devie Deviesson
 ---
