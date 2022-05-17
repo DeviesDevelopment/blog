@@ -1,5 +1,6 @@
 theme = "ananke"
 baseURL = "https://deviesdevelopment.github.io/blog"
+title = "Devies blog"
 
 [params]
   site_logo = "/blog/logo.png"
