@@ -12,7 +12,7 @@ slug: "we-got-cached"
 
 For the past couple of weeks, we've been working on a React app from scratch. Additionally, we've added pipelines in Azure as an attempt to achieve <span style="font-family:Arial;color:#00c0ff;">MAXIMUM EFFICIENCY</span> when it comes to deployment and integration. So there we are. It's a lovely morning. The sun is shining, the coffee is warm, and we're ready to drop some lines of code! 😎
 
-Last week we built and deployed a version of our React app that had a slightly faulty CSS attributes that made the header of the app take up the whole screen. Thus our first and foremost task was to fix it so that it only takes up a small area at the top of the screen. We used the Inspection feature in Firefox Developer Edition to pinpoint the faulty CSS and determine the issue, which we managed to do. The next step was to apply that fix in our code to see what would happen. The fix worked locally by running the React app using `yarn start` as well as deploying a Docker image. Great, the fix is ready to be deployed using our Azure pipelines!
+Last week we built and deployed a version of our React app that had a slightly faulty CSS attribute that made the header of the app take up the whole screen. Thus our first and foremost task was to fix it so that it only takes up a small area at the top of the screen. We used the Inspection feature in Firefox Developer Edition to pinpoint the faulty CSS and determine the issue, which we managed to do. The next step was to apply that fix in our code to see what would happen. The fix worked locally by running the React app using `yarn start` as well as deploying a Docker image. Great, the fix is ready to be deployed using our Azure pipelines!
 
 Except there was no change. Any fix we attempted to do worked locally but never appeared in the dev environment. We asked our colleagues and no one could pinpoint why this was happening. Alas, we went back to basics and changed the header text. If not CSS, a text change should definitely be shown, right? <span style="font-family:Arial;font-weight:bold;color:#ff2200;">WRONG!</span>🙅‍♂️
 
@@ -40,7 +40,7 @@ Luckily, we can pass Docker arguments to our Docker task in our `azure-pipelines
       arguments: --no-cache
     displayName: "Build"
 
-  - task: Docker@2
+- task: Docker@2
     inputs:
       containerRegistry: ...
       repository: ...
