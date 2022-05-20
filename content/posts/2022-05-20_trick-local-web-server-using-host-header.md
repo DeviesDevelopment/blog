@@ -15,7 +15,7 @@ author:
 
 We are currently working on a project where we have an nginx instance that is redirecting traffic for many different domains. In our case, the nginx is an ingress controller in a kubernetes cluster, but you might use a similar approach if you're hosting multiple websites on the same webserver.
 
-During development we often need to make requests to an nginx that runs locally, but have it behave as if a request was made to e.g. *my-domain.com*. A common approach to accomplish this is to modify the [`/etc/hosts`](https://en.wikipedia.org/wiki/Hosts_(file)) file so that *my-domain.com* resolves to *localhost*. However, this might not always be feasible or possible. If you need to change the domain often, it can be cumbersome to make file changes in between, or perhaps you need to do this on a build agent where you don't have permissions to modify the file.
+During development we often need to make requests to an nginx that runs locally, but have it behave as if a request was made to e.g. *my-domain.com*. A common approach to accomplish this is to modify the [`/etc/hosts`](https://en.wikipedia.org/wiki/Hosts_(file)) file so that *my-domain.com* resolves to *localhost*. However, this might not always be feasible or possible. If you need to change the domain often, it can be cumbersome to make file changes in between, or perhaps you need to do this on a machine where you don't have permissions to modify the file (e.g. a build agent).
 
 In cases like this, you can instead set the `Host` request header to the intended domain. For example, to make a request to *localhost* but have the web server behave as if the request was made to *my-domain.com*:
 
