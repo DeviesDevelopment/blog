@@ -1,10 +1,10 @@
 ---
-title: "Some title"
+title: "Trick your local web server using the Host header"
 date: 2022-05-20T14:56:30+02:00
 tags: [ nginx, DNS ]
 featured_image: ""
 description: ""
-slug: "some-title"
+slug: "trick-local-web-server-using-host-header"
 author:
  - Rickard Andersson
 ---
