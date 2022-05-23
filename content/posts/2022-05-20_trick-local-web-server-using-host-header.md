@@ -22,3 +22,5 @@ In cases like this, you can instead set the `Host` request header to the intende
 ```bash
 curl localhost -H Host:my-domain.com
 ```
+
+For the project I mentioned above we use this approach when running end-to-end tests in our CI pipeline.
