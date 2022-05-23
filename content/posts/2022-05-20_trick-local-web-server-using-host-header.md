@@ -20,5 +20,5 @@ During development we often need to make requests to an nginx that runs locally,
 In cases like this, you can instead set the `Host` request header to the intended domain. For example, to make a request to *localhost* but have the web server behave as if the request was made to *my-domain.com*:
 
 ```bash
-curl localhost -H Host:mydomain.com
+curl localhost -H Host:my-domain.com
 ```
