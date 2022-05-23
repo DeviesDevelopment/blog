@@ -6,5 +6,6 @@ title = "Devies blog"
   site_logo = "/blog/logo.png"
   favicon = "favicon.ico"
   featured_image = "sparvagn.jpg"
+  custom_css = ["custom.css"]
 [markup.goldmark.renderer] 
   unsafe = true
