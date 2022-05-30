@@ -9,7 +9,7 @@ author:
 ---
 Last week, while writing end-to-end tests for our Kubernetes application, we discovered a useful Kubernetes command. Namely, the `kubectl wait` command. We managed to stabilize our test using this command, and we will explain how we did it in this post.
 
-We have written our end-to-end tests in bash,  and they deploy and manage different Kubernetes resources. Bash scripts execute commands sequentially, waiting for the first to finish before. Consider the following script, where we first deploy an Nginx instance and then read its logs.
+We have written our end-to-end tests in bash,  and they deploy and manage different Kubernetes resources. Bash scripts execute commands sequentially, waiting for the first to finish before executing the next one. Consider the following script, where we first deploy an Nginx instance and then read its logs.
 
 ```bash
 #!/bin/bash
