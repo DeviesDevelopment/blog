@@ -36,8 +36,9 @@ author:
  - Model binding (controller routes, etc)
  - Swashbuckle
 
- - Summary med bra grejer
-   - Centralized validation
-   - När vi ser ToothIdentifier så vet vi att den är giltig, type safety, typ
-   - Smäller i "API-ytan"
-   - Tydligare API-dokumentation
+ - Summary med bra och dåliga grejer
+   - (+) Centralized validation
+   - (+) När vi ser ToothIdentifier så vet vi att den är giltig, type safety, typ
+   - (+) Smäller i "API-ytan"
+   - (+) Tydligare API-dokumentation
+   - (-) Mycket kod
