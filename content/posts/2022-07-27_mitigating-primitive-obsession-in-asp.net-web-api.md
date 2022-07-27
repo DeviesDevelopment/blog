@@ -21,6 +21,7 @@ author:
    In the early on the project we represented the tooth identifier as a string, for example `"42"`
    As the project grow we stared to use this tooth identifier in many different places in the project.
    In every place where the identifier was used we had to make sure the tooth identifier was properly validated.
+   The reuse of the string type made it unclear of what the tooth identifier represents, and it affected the readability of our code.
    
    This is a clear example of [primitive obsession]('insert-link').
    In this post we will describe how we mitigated this problem in the context of ASP.Net Webb API where we use Entity Framework.
