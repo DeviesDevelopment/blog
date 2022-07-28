@@ -1,7 +1,15 @@
 ---
 title: "Conventional Commits and Generating Changelogs"
 date: 2022-07-27T16:43:10+02:00
-tags: []
+tags:
+  [
+    "Conventional Commits",
+    "changelogs",
+    "automation",
+    "CI",
+    "Azure Devops",
+    "documentation",
+  ]
 featured_image: ""
 description: ""
 slug: "conventional-commits-and-generating-changelogs"
@@ -116,8 +124,8 @@ We also added the following settings in a file called `.versionrc` in order to m
 ```json
 {
   "releaseCommitMessageFormat": "chore(release): {{currentTag}} [skip ci]",
-  "compareUrlFormat": "{{host}}/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GT{{previousTag}}&targetVersion=GT{{currentTag}}",
-  "commitUrlFormat": "{{host}}/AttentDevOps/Backend/_git/Backend/commit/{{hash}}",
+  "compareUrlFormat": "{{host}}/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GT{{previousTag}}&targetVersion=GT{{currentTag}}",
+  "commitUrlFormat": "{{host}}/*Organization*/*Project*/_git/*Project*/commit/{{hash}}",
   "packageFiles": [],
   "bumpFiles": []
 }
@@ -142,26 +150,26 @@ The following is a sample from our `CHANGELOG.MD`:
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [2.12.5](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GTv2.12.4&targetVersion=GTv2.12.5) (2022-07-26)
+### [2.12.5](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GTv2.12.4&targetVersion=GTv2.12.5) (2022-07-26)
 
-### [2.12.4](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GTv2.12.3&targetVersion=GTv2.12.4) (2022-07-26)
+### [2.12.4](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GTv2.12.3&targetVersion=GTv2.12.4) (2022-07-26)
 
-### [2.12.3](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GTv2.12.2&targetVersion=GTv2.12.3) (2022-07-25)
+### [2.12.3](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GTv2.12.2&targetVersion=GTv2.12.3) (2022-07-25)
 
-### [2.12.2](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GTv2.12.1&targetVersion=GTv2.12.2) (2022-07-25)
+### [2.12.2](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GTv2.12.1&targetVersion=GTv2.12.2) (2022-07-25)
 
-### [2.12.1](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GTv2.12.0&targetVersion=GTv2.12.1) (2022-07-25)
+### [2.12.1](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GTv2.12.0&targetVersion=GTv2.12.1) (2022-07-25)
 
-## [2.12.0](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GTv2.11.0&targetVersion=GTv2.12.0) (2022-07-22)
-
-### Features
-
-- Updated review service and controller with ToothReview ([a9986ec](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/commit/a9986ec0a1ebce488da70605fcd0892241e00150)), closes [#899](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/issues/899)
-
-## [2.11.0](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GTv2.10.0&targetVersion=GTv2.11.0) (2022-07-22)
+## [2.12.0](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GTv2.11.0&targetVersion=GTv2.12.0) (2022-07-22)
 
 ### Features
 
-- Added default value current timestamp for all ITimeStampedModel ([73d1f51](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/commit/73d1f51a2af37f227e75a80e843bff1366fa96ae))
+- Updated review service and controller with ToothReview ([a9986ec](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/commit/a9986ec0a1ebce488da70605fcd0892241e00150)), closes [#899](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/issues/899)
 
-## [2.10.0](https://dev.azure.com/AttentDevOps/Backend/_git/Backend/branchCompare?baseVersion=GTv2.9.0&targetVersion=GTv2.10.0) (2022-07-21)
+## [2.11.0](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GTv2.10.0&targetVersion=GTv2.11.0) (2022-07-22)
+
+### Features
+
+- Added default value current timestamp for all ITimeStampedModel ([73d1f51](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/commit/73d1f51a2af37f227e75a80e843bff1366fa96ae))
+
+## [2.10.0](https://dev.azure.com/*Organization*/*Project*/_git/*Project*/branchCompare?baseVersion=GTv2.9.0&targetVersion=GTv2.10.0) (2022-07-21)
