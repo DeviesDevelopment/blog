@@ -11,27 +11,53 @@ author:
  - Johan Hage
 ---
 
- - Introduction to problem
-   - Concept central to domain that is represented as a primitive
-   In one of the projects we work with in Devies, the dental notation (ISO 3950) is wide used to refer too teeth. 
-   Every tooth have an unique identifier that consits of two characters.
-   The first character represent the quadrant, one of four areas in the mouth.
-   The second characters is an identifiers that refers to one of the eight teeth in that area.
-
-   In the early on the project we represented the tooth identifier as a string, for example `"42"`
+   One of the projects we work with at Devies is related to the dental domain.
+   In that project we use the dental notation (ISO 3950) to refer to teeth. 
+   Every tooth have an unique identifier that consist of two characters.
+   The first character represent a quadrant (one of four areas in the mouth).
+   The second characters is an identifier that refers to one of the eight teeth in that area.
+   
+   Early on in the project we represented the tooth identifier using a string, for example `"42"` (4 is the quadrant, 2 is the identifier).
    As the project grow we stared to use this tooth identifier in many different places in the project.
    In every place where the identifier was used we had to make sure the tooth identifier was properly validated.
    The reuse of the string type made it unclear of what the tooth identifier represents, and it affected the readability of our code.
    
-   This is a clear example of [primitive obsession]('insert-link').
+   This is a clear example of [primitive obsession](https://refactoring.guru/smells/primitive-obsession).
    In this post we will describe how we mitigated this problem in the context of ASP.Net Webb API where we use Entity Framework.
 
+   ### ToothIdentifier
+   First of all, we introduced new model, ToothIdentifier. The model includes validation to get rid of duplicating the same code over and over again. 
 
+```csharp
+ public record ToothIdentifier
 
-   - Duplicated validation
-   - Readability
+    public ToothIdentifier(string? id)
+    {
+        // Bunch of validation logic that has not been included for brevity
+        Id = id;
+    }
 
- - Conversion for Entity Framework (ValueConverter)
+    private string Id { get; }
+
+    public override string ToString()
+    {
+        return Id;
+    }
+}
+```
+   That's a great start! We can now clearly refer to a ToothIdentifier. Everytime we use the record, we know that it's a ToothIdentifier and that it has been properly validated.
+   Next, we want to be able to use our record as seamlessly as possible throughout the codebase.
+
+   ### Conversion for Entity Framework (ValueConverter)
+   In our project we use Entity Framework for relational mapping to our database.
+   We store the tooth identifier in our database as a string, and that's perfectly fine.
+   However, we want the benefits of using our ToothIdentifier record in our database-related code.
+   Entity framework knows perfectly well how to store a string in the database, but it has no idea of how to store a ToothIdentifier.
+   We had to in some way convert our ToothIdentifier model to a string when we are reading and writing to the database, that is exactly what [Value Conversions](https://docs.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations) do.
+   
+   This example shows how we solved our converter. 
+   We extends the ValueConverter interface and take both types, ToothIdentifier and string.
+   We define a function that converts our model, ToothIdentifier to an string in the database and the other way around.
 
 ```csharp
 public class ToothIdentifierConverter : ValueConverter<ToothIdentifier, string>
@@ -45,7 +71,15 @@ public class ToothIdentifierConverter : ValueConverter<ToothIdentifier, string>
 }
 ```
 
- - Conversion for JSON serialize/deserialize (JsonConverter)
+   ### Conversion for JSON serialize/deserialize (JsonConverter)
+   Our project is a primarily a Web API.
+   Naturally, we have a bunch of HTTP endpoints that handles JSON payloads.
+   For JSON marshalling we use [`System.Text.Json`](https://docs.microsoft.com/en-us/dotnet/api/system.text.json?view=net-6.0), but that library has no idea of how to convert a `ToothIdentifier`.
+   To have it understand what to do with `ToothIdentifier` we must implement a JsonConverter<T>.
+
+   With a JsonConverter in place, we can use ToothIdentifier in our request/response models, without having to worry about validation.
+
+   Note that you also must register JsonConverters. See [link](https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-converters-how-to?pivots=dotnet-6-0#register-a-custom-converter) for full documentation.
 
 ```csharp
 public class ToothIdentifierConverter : JsonConverter<ToothIdentifier>
@@ -70,24 +104,30 @@ public class ToothIdentifierConverter : JsonConverter<ToothIdentifier>
 }
 
 ```
- - Model binding (controller routes, etc)
+### Model binding (controller routes, etc)
+
+   In our API, we don't only use ToothIdentifier in JSON payloads.
+   We also use them in HTTP request paths and form data.
+   Therefore, we also want to use the new ToothIdentifier record in our controller methods, as in below sample code.
+
+```csharp
+    [HttpPost]
+    [Route("/reviews/{toothId}")]
+    public async Task<ActionResult> TestBackgroundNotification([FromPath] ToothIdentifier id)
+    {
+        ...
+    }
+```
+
+   In order to have ASP.NET convert a regular string, e.g. "42" to a ToothIdentifier we must implement an IModelBinder.
+   Below is how we implemented the ModelBinder. Note that we've removed some code for brevity. Documentation of how to fully implement one can be found [here](https://docs.microsoft.com/en-us/aspnet/core/mvc/advanced/custom-model-binding?view=aspnetcore-6.0#custom-model-binder-sample).
 
 ```csharp
 public class ToothIdentifierBinder : IModelBinder
 {
     public Task BindModelAsync(ModelBindingContext bindingContext)
     {
-        if (bindingContext == null) throw new ArgumentNullException(nameof(bindingContext));
-
-        var modelName = bindingContext.ModelName;
-        var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
-
-        if (valueProviderResult == ValueProviderResult.None) return Task.CompletedTask;
-
-        bindingContext.ModelState.SetModelValue(modelName, valueProviderResult);
-
-        var value = valueProviderResult.FirstValue;
-
+       ...
         try
         {
             var toothId = new ToothIdentifier(value);
@@ -102,18 +142,22 @@ public class ToothIdentifierBinder : IModelBinder
         return Task.CompletedTask;
     }
 }
-
-public class ToothIdentifierBinderProvider : IModelBinderProvider
-{
-    public IModelBinder GetBinder(ModelBinderProviderContext context)
-    {
-        if (context == null) throw new ArgumentNullException(nameof(context));
-
-        return context.Metadata.ModelType == typeof(ToothIdentifier) ? new BinderTypeModelBinder(typeof(ToothIdentifierBinder)) : null;
-    }
-}
 ```
- - Swashbuckle
+
+### Swashbuckle
+
+The last step was to make the API documentation clear and easy to use. 
+In our project we use Swagger.
+But we noticed a problem with Swagger, in our test API request the documentation wasn't apprehensible. 
+It did not explain the type of ToothIdentifier and only show an empty object.
+There no possible way for a user to know how to provide a tooth identifier.
+
+Here is were [Swashbuckle](https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-6.0&tabs=visual-studio) comes in.
+Swashbuckle is an package to generate the Swagger specifications for your project
+We used Swashbuckles AddSwaggerGen method to add information about how the input should be. 
+With Swashbuckle we could add all the necessary information about our ToothIdentifier. 
+Now every user would be able to use our API request without having to figure out what the correct input is.  
+
 ```csharp
 services
     .AddSwaggerGen(c =>
@@ -136,3 +180,11 @@ services
    - (+) Smäller i "API-ytan"
    - (+) Tydligare API-dokumentation
    - (-) Mycket kod
+
+This was a lot of work and added many lines of code, but now the readability to our project has improved quite a lot.
+The validation for ToothIdentifier is in one place instead of duplicating the code every time we needed to define a tooth with string as type.
+We got type safety, when ToothIdentifier is needed, we already now that it's validated. 
+
+Error occurs now in the API space, that is earlier then before when the error could happen when getting the tooth information.
+The API documentation is easier to understand and makes it possible for user to know how to make an request.  
+  
