@@ -32,10 +32,104 @@ author:
    - Readability
 
  - Conversion for Entity Framework (ValueConverter)
- - Conversion for JSON serialize/deserialize (JsonConverter)
- - Model binding (controller routes, etc)
- - Swashbuckle
 
+```csharp
+public class ToothIdentifierConverter : ValueConverter<ToothIdentifier, string>
+{
+    public ToothIdentifierConverter()
+        : base(
+            v => v.ToString(),
+            v => new ToothIdentifier(v))
+    {
+    }
+}
+```
+
+ - Conversion for JSON serialize/deserialize (JsonConverter)
+
+```csharp
+public class ToothIdentifierConverter : JsonConverter<ToothIdentifier>
+{
+    public override ToothIdentifier Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var value = reader.GetString();
+        try
+        {
+            return new ToothIdentifier(value);
+        }
+        catch (ToothIdentifierInvalidException e)
+        {
+            throw new JsonException(e.Message);
+        }
+    }
+
+    public override void Write(Utf8JsonWriter writer, ToothIdentifier value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value.ToString());
+    }
+}
+
+```
+ - Model binding (controller routes, etc)
+
+```csharp
+public class ToothIdentifierBinder : IModelBinder
+{
+    public Task BindModelAsync(ModelBindingContext bindingContext)
+    {
+        if (bindingContext == null) throw new ArgumentNullException(nameof(bindingContext));
+
+        var modelName = bindingContext.ModelName;
+        var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
+
+        if (valueProviderResult == ValueProviderResult.None) return Task.CompletedTask;
+
+        bindingContext.ModelState.SetModelValue(modelName, valueProviderResult);
+
+        var value = valueProviderResult.FirstValue;
+
+        try
+        {
+            var toothId = new ToothIdentifier(value);
+            bindingContext.Result = ModelBindingResult.Success(toothId);
+        }
+        catch (ToothIdentifierInvalidException e)
+        {
+            bindingContext.ModelState.TryAddModelError(
+                modelName, e.Message);
+        }
+
+        return Task.CompletedTask;
+    }
+}
+
+public class ToothIdentifierBinderProvider : IModelBinderProvider
+{
+    public IModelBinder GetBinder(ModelBinderProviderContext context)
+    {
+        if (context == null) throw new ArgumentNullException(nameof(context));
+
+        return context.Metadata.ModelType == typeof(ToothIdentifier) ? new BinderTypeModelBinder(typeof(ToothIdentifierBinder)) : null;
+    }
+}
+```
+ - Swashbuckle
+```csharp
+services
+    .AddSwaggerGen(c =>
+    {
+        c.MapType<ToothIdentifier>(() => new OpenApiSchema
+        {
+            Type = "string",
+            MinLength = 2,
+            MaxLength = 2,
+            Example = new OpenApiString("11"),
+            Description = "ToothIdentifier where first character refers to a quadrant of value 1-4, and the second character an identifier of value 1-8.",
+            Pattern = "^[1-4][1-8]$"
+        });
+    })
+
+```
  - Summary med bra och dåliga grejer
    - (+) Centralized validation
    - (+) När vi ser ToothIdentifier så vet vi att den är giltig, type safety, typ
