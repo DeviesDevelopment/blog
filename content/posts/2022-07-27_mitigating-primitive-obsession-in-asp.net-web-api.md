@@ -18,9 +18,9 @@ author:
    The second characters is an identifier that refers to one of the eight teeth in that area.
    
    Early on in the project we represented the tooth identifier using a string, for example `"42"` (4 is the quadrant, 2 is the identifier).
-   As the project grow we stared to use this tooth identifier in many different places in the project.
+   As the project grew we stared to use this tooth identifier in many different places in the project.
    In every place where the identifier was used we had to make sure the tooth identifier was properly validated.
-   The reuse of the string type made it unclear of what the tooth identifier represents, and it affected the readability of our code.
+   The reuse of the string type made it unclear of what the tooth identifier represented, and it affected the readability of our code.
    
    This is a clear example of [primitive obsession](https://refactoring.guru/smells/primitive-obsession).
    In this post we will describe how we mitigated this problem in the context of ASP.Net Webb API where we use Entity Framework.
@@ -56,8 +56,8 @@ author:
    We had to in some way convert our ToothIdentifier model to a string when we are reading and writing to the database, that is exactly what [Value Conversions](https://docs.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations) do.
    
    This example shows how we solved our converter. 
-   We extends the ValueConverter interface and take both types, ToothIdentifier and string.
-   We define a function that converts our model, ToothIdentifier to an string in the database and the other way around.
+   We extend the ValueConverter interface and take both types, ToothIdentifier and string.
+   We define a function that converts our model, ToothIdentifier to a string in the database and the other way around.
 
 ```csharp
 public class ToothIdentifierConverter : ValueConverter<ToothIdentifier, string>
@@ -183,8 +183,8 @@ services
 
 This was a lot of work and added many lines of code, but now the readability to our project has improved quite a lot.
 The validation for ToothIdentifier is in one place instead of duplicating the code every time we needed to define a tooth with string as type.
-We got type safety, when ToothIdentifier is needed, we already now that it's validated. 
+We got type safety, when ToothIdentifier is needed, we already know that it's validated. 
 
-Error occurs now in the API space, that is earlier then before when the error could happen when getting the tooth information.
+Errors now occur in the API space. That is earlier than before when errors could happen when getting the tooth information.
 The API documentation is easier to understand and makes it possible for user to know how to make an request.  
   
