@@ -12,7 +12,7 @@ author:
 ---
 
    One of the projects we work with at Devies is related to the dental domain.
-   In that project we use the dental notation (ISO 3950) to refer to teeth. 
+   In that project we use the [dental notation (ISO 3950)](https://en.wikipedia.org/wiki/Dental_notation) to refer to teeth. 
    Every tooth have an unique identifier that consist of two characters.
    The first character represent a quadrant (one of four areas in the mouth).
    The second characters is an identifier that refers to one of the eight teeth in that area.
@@ -23,7 +23,7 @@ author:
    The reuse of the string type made it unclear of what the tooth identifier represented, and it affected the readability of our code.
    
    This is a clear example of [primitive obsession](https://refactoring.guru/smells/primitive-obsession).
-   In this post we will describe how we mitigated this problem in the context of ASP.Net Webb API where we use Entity Framework.
+   In this post we will describe how we mitigated this problem in the context of ASP.Net Web API where we use Entity Framework.
 
    ### ToothIdentifier
    First of all, we introduced new model, ToothIdentifier. The model includes validation to get rid of duplicating the same code over and over again. 
@@ -104,7 +104,7 @@ public class ToothIdentifierConverter : JsonConverter<ToothIdentifier>
 }
 
 ```
-### Model binding (controller routes, etc)
+### Model binding
 
    In our API, we don't only use ToothIdentifier in JSON payloads.
    We also use them in HTTP request paths and form data.
