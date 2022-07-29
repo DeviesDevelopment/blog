@@ -1,0 +1,115 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Mitigating Primitive Obsession in ASP.NET Web Api | Devies blog</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="One of the projects we work with at Devies is related to the dental domain. In that project we use the dental notation (ISO 3950) to refer to teeth. Every tooth have an unique identifier that consist of two characters. The first character represent a quadrant (one of four areas in the mouth). The second characters is an identifier that refers to one of the eight teeth in that area."><meta name=generator content="Hugo 0.101.0"><meta name=ROBOTS content="INDEX, FOLLOW"><link rel=stylesheet href=/blog/ananke/css/main.min.9036e8ca4a3287e27ab2eb511a473b75bdc83acf6db11ab67b1704e7b4fdd475.css><link rel="shortcut icon" href=/blog/favicon.ico type=image/x-icon><meta property="og:title" content="Mitigating Primitive Obsession in ASP.NET Web Api"><meta property="og:description" content="One of the projects we work with at Devies is related to the dental domain. In that project we use the dental notation (ISO 3950) to refer to teeth. Every tooth have an unique identifier that consist of two characters. The first character represent a quadrant (one of four areas in the mouth). The second characters is an identifier that refers to one of the eight teeth in that area."><meta property="og:type" content="article"><meta property="og:url" content="https://deviesdevelopment.github.io/blog/posts/mitigating-primitive-obsession-in-asp.net-web-api/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-27T15:20:58+02:00"><meta property="article:modified_time" content="2022-07-27T15:20:58+02:00"><meta itemprop=name content="Mitigating Primitive Obsession in ASP.NET Web Api"><meta itemprop=description content="One of the projects we work with at Devies is related to the dental domain. In that project we use the dental notation (ISO 3950) to refer to teeth. Every tooth have an unique identifier that consist of two characters. The first character represent a quadrant (one of four areas in the mouth). The second characters is an identifier that refers to one of the eight teeth in that area."><meta itemprop=datePublished content="2022-07-27T15:20:58+02:00"><meta itemprop=dateModified content="2022-07-27T15:20:58+02:00"><meta itemprop=wordCount content="1014"><meta itemprop=keywords content="ASP.NET,.NET,code smells,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Mitigating Primitive Obsession in ASP.NET Web Api"><meta name=twitter:description content="One of the projects we work with at Devies is related to the dental domain. In that project we use the dental notation (ISO 3950) to refer to teeth. Every tooth have an unique identifier that consist of two characters. The first character represent a quadrant (one of four areas in the mouth). The second characters is an identifier that refers to one of the eight teeth in that area."></head><body class="ma0 avenir bg-near-white production"><header><div class=bg-black><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l justify-between items-center center"><a href=/blog/ class="f3 fw2 hover-white no-underline white-90 dib"><img src=/blog/logo.png class="w100 mw5-ns" alt="Devies blog"></a><div class="flex-l items-center"><div class=ananke-socials></div></div></div></nav></div></header><main class=pb7 role=main><article class="flex-l flex-wrap justify-between mw8 center ph3"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked">POSTS</aside><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">Mitigating Primitive Obsession in ASP.NET Web Api</h1><p class=tracked>By <strong>Carina Fernandes, Rickard Andersson, Johan Hage</strong></p><time class="f6 mv4 dib tracked" datetime=2022-07-27T15:20:58+02:00>July 27, 2022</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>One of the projects we work with at Devies is related to the dental domain.
+In that project we use the <a href=https://en.wikipedia.org/wiki/Dental_notation>dental notation (ISO 3950)</a> to refer to teeth.
+Every tooth have an unique identifier that consist of two characters.
+The first character represent a quadrant (one of four areas in the mouth).
+The second characters is an identifier that refers to one of the eight teeth in that area.</p><p>Early on in the project we represented the tooth identifier using a string, for example <code>"42"</code> (4 is the quadrant, 2 is the identifier).
+As the project grew we stared to use this tooth identifier in many different places in the project.
+Since we use a raw string, we had to make sure the tooth identifier was properly validated at every place where it was used.
+Additionally, it was unclear what the tooth identifier (string) represented, and it affected the readability of our code.</p><p>This is a clear example of <a href=https://refactoring.guru/smells/primitive-obsession>primitive obsession</a>.
+Primitive Obsession is a code smell in which primitive data (such as string, int, char etc) types are used excessively to represent your data models.
+In this post we will describe how we mitigated this problem in the context of ASP.Net Web API where we use Entity Framework.</p><h3 id=toothidentifier>ToothIdentifier</h3><p>First of all, we introduced new model, <code>ToothIdentifier</code>. The model includes validation to get rid of duplicating the same code over and over again.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span> <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>record</span> <span style=color:#a6e22e>ToothIdentifier</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> ToothIdentifier(<span style=color:#66d9ef>string?</span> id)
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// Bunch of validation logic that has not been included for brevity</span>
+</span></span><span style=display:flex><span>        Id = id;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>string</span> Id { <span style=color:#66d9ef>get</span>; }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>override</span> <span style=color:#66d9ef>string</span> ToString()
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> Id;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>That&rsquo;s a great start! We can now clearly refer to a <code>ToothIdentifier</code>. Everytime we use the record, we know that it&rsquo;s a tooth identifier and that it has been properly validated.
+Next, we want to be able to use our record as seamlessly as possible throughout the codebase.</p><h3 id=conversion-for-entity-framework>Conversion for Entity Framework</h3><p>In our project we use Entity Framework for object-relational mapping to our database.
+We store the tooth identifier in our database as a string, and that&rsquo;s perfectly fine.
+However, we want the benefits of using our <code>ToothIdentifier</code> record in our database-related code.
+Entity framework knows perfectly well how to store a string in the database, but it has no idea of how to store a <code>ToothIdentifier</code>.
+We had to in some way convert our <code>ToothIdentifier</code> model to a string when we are reading and writing to the database, that is exactly what <a href="https://docs.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations">Value Conversions</a> do.</p><p>This example shows how we implemented our converter.
+We extend the ValueConverter interface and take both types, <code>ToothIdentifier</code> and string.
+We define a function that converts our model, <code>ToothIdentifier</code> to a string in the database and the other way around.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ToothIdentifierConverter</span> : ValueConverter&lt;ToothIdentifier, <span style=color:#66d9ef>string</span>&gt;
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> ToothIdentifierConverter()
+</span></span><span style=display:flex><span>        : <span style=color:#66d9ef>base</span>(
+</span></span><span style=display:flex><span>            v =&gt; v.ToString(),
+</span></span><span style=display:flex><span>            v =&gt; <span style=color:#66d9ef>new</span> ToothIdentifier(v))
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=conversion-for-json-serializedeserialize>Conversion for JSON serialize/deserialize</h3><p>Our project is a primarily a Web API.
+Naturally, we have a bunch of HTTP endpoints that handles JSON payloads.
+For JSON marshalling we use <a href="https://docs.microsoft.com/en-us/dotnet/api/system.text.json?view=net-6.0"><code>System.Text.Json</code></a>, but that library has no idea of how to convert a <code>ToothIdentifier</code>.
+To have it understand what to do with <code>ToothIdentifier</code> we must implement a JsonConverter<t>.</p><p>With a JsonConverter in place, we can use <code>ToothIdentifier</code> in our request/response models, without having to worry about validation.</p><p>Note that you also must register JsonConverters. See <a href="https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-converters-how-to?pivots=dotnet-6-0#register-a-custom-converter">link</a> for full documentation.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ToothIdentifierConverter</span> : JsonConverter&lt;ToothIdentifier&gt;
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>override</span> ToothIdentifier Read(<span style=color:#66d9ef>ref</span> Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>var</span> <span style=color:#66d9ef>value</span> = reader.GetString();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span>
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> ToothIdentifier(<span style=color:#66d9ef>value</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>catch</span> (ToothIdentifierInvalidException e)
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> JsonException(e.Message);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>override</span> <span style=color:#66d9ef>void</span> Write(Utf8JsonWriter writer, ToothIdentifier <span style=color:#66d9ef>value</span>, JsonSerializerOptions options)
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        writer.WriteStringValue(<span style=color:#66d9ef>value</span>.ToString());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=model-binding>Model binding</h3><p>In our API, we don&rsquo;t only use tooth identifiers in JSON payloads.
+We also use them in HTTP request paths and form data.
+Therefore, we also want to use the new <code>ToothIdentifier</code> record in our controller methods, as in below sample code.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#a6e22e>    [HttpPost]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>    [Route(&#34;/reviews/{toothId}&#34;)]</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>async</span> Task&lt;ActionResult&gt; TestBackgroundNotification([FromPath] ToothIdentifier id)
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        ...
+</span></span><span style=display:flex><span>    }
+</span></span></code></pre></div><p>In order to have ASP.NET convert a regular string, e.g. &ldquo;42&rdquo; to a <code>ToothIdentifier</code> we must implement an <code>IModelBinder</code>.
+Below is how we implemented the ModelBinder. Note that we&rsquo;ve removed some code for brevity. Documentation of how to fully implement one can be found <a href="https://docs.microsoft.com/en-us/aspnet/core/mvc/advanced/custom-model-binding?view=aspnetcore-6.0#custom-model-binder-sample">here</a>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ToothIdentifierBinder</span> : IModelBinder
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Task BindModelAsync(ModelBindingContext bindingContext)
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>       ...
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span>
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>var</span> toothId = <span style=color:#66d9ef>new</span> ToothIdentifier(<span style=color:#66d9ef>value</span>);
+</span></span><span style=display:flex><span>            bindingContext.Result = ModelBindingResult.Success(toothId);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>catch</span> (ToothIdentifierInvalidException e)
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>            bindingContext.ModelState.TryAddModelError(
+</span></span><span style=display:flex><span>                modelName, e.Message);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> Task.CompletedTask;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=swashbuckle>Swashbuckle</h3><p>Now we can use the <code>ToothIdentifier</code> record seamlessly throughout our codebase.
+However, we also want the API documentation clear and easy to use.
+To generate Swagger documentation for our API we use <a href="https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-6.0&tabs=visual-studio">Swashbuckle</a>.
+Swashbuckle does not know about the different converters we&rsquo;ve implemented, and therefore show <code>ToothIdentifier</code> as an empty object.
+There no possible way for a user to know how to provide a tooth identifier.</p><p>In order to instruct Swashbuckle how to represent <code>ToothIdentifier</code>, we used the AddSwaggerGen method to add information about how the input should be.
+With Swashbuckle we could add all the necessary information about our <code>ToothIdentifier</code>.
+Now every user would be able to use our API request without having to figure out what the correct input is.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span>services
+</span></span><span style=display:flex><span>    .AddSwaggerGen(c =&gt;
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        c.MapType&lt;ToothIdentifier&gt;(() =&gt; <span style=color:#66d9ef>new</span> OpenApiSchema
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>            Type = <span style=color:#e6db74>&#34;string&#34;</span>,
+</span></span><span style=display:flex><span>            MinLength = <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>            MaxLength = <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>            Example = <span style=color:#66d9ef>new</span> OpenApiString(<span style=color:#e6db74>&#34;11&#34;</span>),
+</span></span><span style=display:flex><span>            Description = <span style=color:#e6db74>&#34;ToothIdentifier where first character refers to a quadrant of value 1-4, and the second character an identifier of value 1-8.&#34;</span>,
+</span></span><span style=display:flex><span>            Pattern = <span style=color:#e6db74>&#34;^[1-4][1-8]$&#34;</span>
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>    })
+</span></span></code></pre></div><p>This was a lot of work and added many lines of code, but now the readability to our project has improved quite a lot.
+The validation for <code>ToothIdentifier</code> is in one place.
+We no longer need to duplicate the validation code every time we used a tooth identifier (string).</p><p>Errors now occur in the API layer.
+That is earlier than before when errors could happen when getting the tooth information.
+The API documentation is easier to understand and makes it possible for user to know how to make an request.</p><ul class=pa0><li class=list><a href=/tags/asp.net class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">ASP.NET</a></li><li class=list><a href=/tags/.net class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">.NET</a></li><li class=list><a href=/tags/code-smells class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">code smells</a></li></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://deviesdevelopment.github.io/blog>&copy; Devies blog 2022</a><div><div class=ananke-socials></div></div></div></footer></body></html>
