@@ -53,7 +53,7 @@ From the official page of [Semantic Versioning](https://semver.org/) (or semver)
 
 ## Changelogs
 
-Now, while Conventional Commits might just sound like a you have to spend time on writing better commit messages that no one is going to read anyway, sticking to the convention will bring along some nifty benefits.
+Now, while Conventional Commits might just sound like you have to spend time on writing better commit messages that no one is going to read anyway, sticking to the convention will bring along some nifty benefits.
 Of course it will give you and your team a much clearer overview of what has been done on each commit, but also the structure of each commit can be utilized to generate changelogs automatically!
 Not only that, since there is a clear indication of what type of commits has been made the version number can be automatically increased, allowing you to not have to think about that at all!
 
