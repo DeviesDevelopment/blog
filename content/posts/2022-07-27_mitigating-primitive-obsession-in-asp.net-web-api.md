@@ -23,6 +23,7 @@ author:
    The reuse of the string type made it unclear of what the tooth identifier represented, and it affected the readability of our code.
    
    This is a clear example of [primitive obsession](https://refactoring.guru/smells/primitive-obsession).
+   Primitive Obsession is a code smell in which primitive data (such as string, int, char etc) types are used excessively to represent your data models.
    In this post we will describe how we mitigated this problem in the context of ASP.Net Web API where we use Entity Framework.
 
    ### ToothIdentifier
