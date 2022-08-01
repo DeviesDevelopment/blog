@@ -1,6 +1,6 @@
 ---
 title: "Mitigating Primitive Obsession in ASP.NET Web Api"
-date: 2022-07-27T15:20:58+02:00
+date: 2022-07-29T15:43:58+02:00
 tags: [ "ASP.NET", ".NET", "code smells" ]
 featured_image: ""
 description: ""
