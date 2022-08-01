@@ -10,12 +10,11 @@ author:
  - Rickard Andersson
  - Johan Hage
 ---
-
    One of the projects we work with at Devies is related to the dental domain.
    In that project we use the [dental notation (ISO 3950)](https://en.wikipedia.org/wiki/Dental_notation) to refer to teeth. 
    Every tooth have an unique identifier that consist of two characters.
    The first character represent a quadrant (one of four areas in the mouth).
-   The second characters is an identifier that refers to one of the eight teeth in that area.
+   The second character is an identifier that refers to one of the eight teeth in that area.
    
    Early on in the project we represented the tooth identifier using a string, for example `"42"` (4 is the quadrant, 2 is the identifier).
    As the project grew we stared to use this tooth identifier in many different places in the project.
@@ -27,7 +26,7 @@ author:
    In this post we will describe how we mitigated this problem in the context of ASP.Net Web API where we use Entity Framework.
 
    ### ToothIdentifier
-   First of all, we introduced new model, `ToothIdentifier`. The model includes validation to get rid of duplicating the same code over and over again.
+   First of all, we introduced a new model, `ToothIdentifier`. The model includes validation to get rid of duplicating the same code over and over again.
 
 ```csharp
  public record ToothIdentifier
@@ -155,7 +154,7 @@ There no possible way for a user to know how to provide a tooth identifier.
 
 In order to instruct Swashbuckle how to represent `ToothIdentifier`, we used the AddSwaggerGen method to add information about how the input should be. 
 With Swashbuckle we could add all the necessary information about our `ToothIdentifier`. 
-Now every user would be able to use our API request without having to figure out what the correct input is.  
+Now every user would be able to use our API without having to figure out what the correct input is.
 
 ```csharp
 services
