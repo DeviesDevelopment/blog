@@ -13,7 +13,7 @@ Last week I ended up spending more time than I expected on debugging.
 I spend most of the time figuring out why a library did not accept my freshly generated RSA private key.
 I was supposed to provide the RSA private key as an environment variable `RSA_PRIVATE_KEY`.  I wanted to store the RSA private key in a file `private-key.pem` so my first attempt became `RSA_PRIVATE_KEY=\"$(cat private-key.pem)\" docker-compose up -d`, which failed due to decoding issues by the library.
 It would appear that the library was very strict on the format of the private key.
-After a lot of debugging, I managed to figure it out how I was supposed to provide the private key and I will try to share my learnings here. 
+After a lot of debugging, I managed to figure  out how I was supposed to provide the private key and I will try to share my learnings here. 
 
 During the debugging, I learned a ton about a few UNIX tools. 
 I realized that we have a great toolbox in front of us all day which we should try to get to know a little better.
