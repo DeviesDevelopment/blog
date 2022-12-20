@@ -1,5 +1,5 @@
 ---
-title: "Learnings From Pragmatic Programmer (Part 1)"
+title: "Learnings From Pragmatic Programmer"
 date: 2022-10-19T12:44:05+02:00
 tags: []
 featured_image: ""
@@ -18,15 +18,19 @@ Recently we finished [The Pragmatic Programmer, 20th Anniversary Edition](https:
 In this post, we'll share learnings around some of the topics we have discussed.
 
 # Tracer bullets vs Prototypes
-Two topics discussed in the book are tracler bullets and prototypes.
+Two of the topics discussed in the book are tracer bullets and prototypes.
+The concepts are similar but addresses different problems.
+
 A prototype is a cheap way to try out an idea, to answer questions about something unknown.
 Details that are not required to answer the question are left out in favor of quick feedback at low cost.
+
 Tracer bullets on the other hand is a tool to find out that an end-to-end solution is feasible.
 The metaphor relates to [tracer ammunition](https://en.wikipedia.org/wiki/Tracer_ammunition), which enables visual inspection of the trajectory of a bullet, even in the dark.
 Real-time feedback under actual conditions.
 In the context of a software project, the target is a final system which provides value.
 The path to the target is often full of unknowns, and we might not have any idea of where to aim.
 Your bullet (preferably a small but important feature) is fired under actual conditions (such as frontend, backend, persistence, testing, error handling).
+You develop a skeleton, or a framework, which you can easily adjust and extend with additional features.
 Code is not written in isolation, and it's not disposable.
 If you miss the target - Learn, adjust and evaluate.
 
