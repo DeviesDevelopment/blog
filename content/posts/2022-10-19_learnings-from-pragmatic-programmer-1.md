@@ -47,3 +47,24 @@ In addition, a mature test suite will make your life way easier while refactorin
 In some projects, it may be argued that there's no time to write tests because feature development needs to be prioritized.
 If we accept the fact that testing drives good design, and that good design makes us deliver faster in the long run; you should find a way to write tests anyway, preferably in parallel with the feature development.
 [Friday Facts #366 - The only way to go fast, is to go well!](https://factorio.com/blog/post/fff-366) is a nice blog post about the relationship between software design and delivery speed.
+
+# Easy to change
+As software developers, we often find ourselves working on projects that require frequent updates and changes.
+Whether it's adding new features, fixing bugs, or adapting to changing requirements, the ability to make changes to our codebase quickly and easily is critical.
+That's where the concept of an "Easy to Change" (ETC) mindset comes in.
+
+The ETC mindset is all about designing software systems that are easy to modify and adapt as needed. This involves writing clean, readable, and well-structured coded while
+keeping an open mind to new technologies and approaches that can make our systems more flexible and adaptable.
+
+As you implement a new feature, consider the long-term maintainability of your code. How easy or difficult would it be to adapt this feature to new requirements in the future? Will you need to make changes in multiple files, or can you make the necessary updates in just one file? Always think ETC. 
+
+# Broken Window
+The "Broken Window" theory was introduced by James Q. Wilson and George L. Kelling in their article "Broken Windows" fron 1982.
+They argued that small signs of disorder and neglect in a neighborhood, such as broken windows or graffiti, can lead to more serious crime and social problems.
+The main idea is that if a broken window is left unrepaired, it sends a message that no one cares about the area.
+
+In the context of software development, the "Broken Window" theory can be applied to the idea that small problems in our code can have a similar cascading effect. 
+If we allow small issues, such as code that is difficult to read or maintain, to go unaddressed, it can lead to larger problems in the future.
+These larger problems can include increased difficulty in making changes to the code, a higher risk of introducing bugs, and decreased overall quality and reliability of the code.
+
+There is really only one defense against the consequences of broken windows, and that is to fix the broken windows as soon as they are identified.
