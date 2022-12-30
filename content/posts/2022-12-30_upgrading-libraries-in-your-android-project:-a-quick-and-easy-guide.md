@@ -15,6 +15,29 @@ Upgrading libraries in your gradle file for an Android project is a crucial part
 However, it's not uncommon to encounter errors or deprecated code after upgrading a library. If this happens to you, don't panic!
 There are a few steps you can take to fix the issues and get your project back on track.
 
+## Understanding the Role of Gradle Files
+
+In an Android project, there are two main gradle build files that you might need to work with: the **"build.gradle"** file and the **"gradle-wrapper.properties"** file.
+
+The **"build.gradle"** file is located in the root directory of your Android project and is used to configure the build process for your app.
+This file includes information about your project's dependencies, build types, and other build-related settings.
+
+The **"gradle-wrapper.properties"** file, on the other hand, is used to specify the version of gradle that your project should use.
+This file is located in the "gradle" directory of your Android project.
+
+When upgrading libraries in a gradle file, you'll typically be working with the **"build.gradle"** file.
+However, you might also need to update the **"gradle-wrapper.properties"** file if you're using a new version of gradle that is not compatible with your current project setup.
+
+It's important to note that there are actually two **"build.gradle"** files in an Android project: one at the root level of the project, and one in the "app" directory.
+The **"build.gradle"** file in the root directory is used to configure the overall build process for your project, while the **"build.gradle"** file in the "app" directory is used to configure the build process for your app specifically.
+
+When upgrading libraries, you'll typically need to update the "build.gradle" file in the "app" directory.
+However, you might also need to update the "build.gradle" file in the root directory if you're adding a new library that is not already included in your project.
+
+In addition to the **"build.gradle"** and **"gradle-wrapper.properties"** files, there is also a **"gradle.properties"** file in an Android project.
+This file is used to specify global properties for your project's gradle build, such as the Android SDK location and the version of the Android plugin for gradle that you're using.
+You generally won't need to make any changes to the **"gradle.properties"** file when upgrading libraries, but it's worth being aware of its existence in case you need to make any global configuration changes to your project's gradle build.
+
 ## Step 1: Open Your Project's build.gradle File
 
 The build.gradle file is located in the root directory of your project and defines all of the dependencies and libraries that your project uses.
@@ -59,7 +82,10 @@ Incompatibility issues like these can be quite common but unforseen since Androi
 It's also a good idea to keep an eye on the documentation and release notes for the library that you are using.
 These resources can provide valuable information about new features, deprecated APIs, and known issues that you may encounter while using the library.
 
-In summary, if you encounter errors or deprecated code after upgrading a library in your gradle file, try to understand the problem and then work on a solution.
-If necessary, you can also consider downgrading to an earlier version of the library or checking the documentation for more information.
+## Summary
+
+- If you encounter errors or deprecated code after upgrading a library in your gradle file, try to understand the problem and then work on a solution.
+- If necessary, you can also consider downgrading to an earlier version of the library or checking the documentation for more information.
+- Don't hesitate to ask for help.
 
 Stay vigilant, and happy coding!
