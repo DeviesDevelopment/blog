@@ -59,7 +59,7 @@ keeping an open mind to new technologies and approaches that can make our system
 As you implement a new feature, consider the long-term maintainability of your code. How easy or difficult would it be to adapt this feature to new requirements in the future? Will you need to make changes in multiple files, or can you make the necessary updates in just one file? Always think ETC. 
 
 # Broken Window
-The "Broken Window" theory was introduced by James Q. Wilson and George L. Kelling in their article "Broken Windows" fron 1982.
+The "Broken Window" theory was introduced by James Q. Wilson and George L. Kelling in their article "Broken Windows" from 1982.
 They argued that small signs of disorder and neglect in a neighborhood, such as broken windows or graffiti, can lead to more serious crime and social problems.
 The main idea is that if a broken window is left unrepaired, it sends a message that no one cares about the area.
 
@@ -68,3 +68,11 @@ If we allow small issues, such as code that is difficult to read or maintain, to
 These larger problems can include increased difficulty in making changes to the code, a higher risk of introducing bugs, and decreased overall quality and reliability of the code.
 
 There is really only one defense against the consequences of broken windows, and that is to fix the broken windows as soon as they are identified.
+
+# Good-enough software
+
+There is no such thing as perfect and bug-free code. While this fact is obvious to most of us, it is not uncommon for developers to attempt to make near perfect code by spending a large amount of time to design, test, and refine, only to then be told to release it as is to their dismay. In order for this fact to not bring the motivation down during development we developers should discipline ourselves to write software that's _good enough_ - good enough for the users, for future maintainers of the code, and for our own peace of mind.
+
+Note that the term _good enough_ does **not** mean sloppy or badly produced code, it must still meet the users requirements and uphold certain standards in e.g. performance, security, and privacy. What the authors of this book are advocating for is to give the users an oppurtunity to participate in the decision of when the produced system is deemed good enough for their needs. While developers may be hesitant to release software with rough edges, many users prefer to use have and use something _today_ rather than having something "perfect" (or near it) six months or a year from now (when their needs will likely have changed anyway). 
+
+Another important point to understand is to know when to stop, i.e. having a clear definition of what _good enough_ means for a particular project. Do not break a perfectly good program by spending too much time on overembellishment and overrefinement. There will come a time when you have to move on, and let the code be as it is. It will likely not be perfect, but then again, it can never be. 
