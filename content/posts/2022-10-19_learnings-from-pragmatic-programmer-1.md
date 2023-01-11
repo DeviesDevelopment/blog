@@ -67,7 +67,7 @@ In the context of software development, the "Broken Window" theory can be applie
 If we allow small issues, such as code that is difficult to read or maintain, to go unaddressed, it can lead to larger problems in the future.
 These larger problems can include increased difficulty in making changes to the code, a higher risk of introducing bugs, and decreased overall quality and reliability of the code.
 
-There is really only one defense against the consequences of broken windows, and that is to fix the broken windows as soon as they are identified.
+There is really only one defense against the consequences of broken windows, and that is to fix the broken windows as soon as they are identified, or at least board them up!
 
 # Good-enough software
 
