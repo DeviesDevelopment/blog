@@ -56,7 +56,13 @@ That's where the concept of an "Easy to Change" (ETC) mindset comes in.
 The ETC mindset is all about designing software systems that are easy to modify and adapt as needed. This involves writing clean, readable, and well-structured coded while
 keeping an open mind to new technologies and approaches that can make our systems more flexible and adaptable.
 
-As you implement a new feature, consider the long-term maintainability of your code. How easy or difficult would it be to adapt this feature to new requirements in the future? Will you need to make changes in multiple files, or can you make the necessary updates in just one file? Always think ETC. 
+As you implement a new feature, consider the long-term maintainability of your code. How easy or difficult would it be to adapt this feature to new requirements in the future? Will you need to make changes in multiple files, or can you make the necessary updates in just one file? Always think ETC.
+
+# Stone Soup & Frog Soup
+In the fable about the stone soup, some soldiers start a soup with a few stones and slowly encourages the villagers to each donate an ingredient to make the soup tastier until they eventually rallied the whole village to produce a tasty soup.
+You may be in a situation where you know what needs to be done and how to do it but if you ask for permission you'll be met with delays and skepticism. If you instead start small and develop it well you can start to get buy-in from stakeholders and team members. You say: "Of course, it would be better if we added..". People find it easier to join an ongoing success.
+
+This is similar to the fable about boiling a frog by slowly increasing the temperature. The main difference is that with the stone soup you're a catalyze for something good, while by progressively deceiving the frog you're doing it harm. It's important to reflect if you're making stone soup or frog soup.
 
 # Broken Window
 The "Broken Window" theory was introduced by James Q. Wilson and George L. Kelling in their article "Broken Windows" from 1982.
@@ -68,6 +74,13 @@ If we allow small issues, such as code that is difficult to read or maintain, to
 These larger problems can include increased difficulty in making changes to the code, a higher risk of introducing bugs, and decreased overall quality and reliability of the code.
 
 There is really only one defense against the consequences of broken windows, and that is to fix the broken windows as soon as they are identified, or at least board them up!
+
+# The requirements myth
+
+I (Simon) used to be annoyed that clients or project owners didn't specify exactly what they wanted in the user stories. Did they not understand how much of our time they were wasting when we had to ask them to clarify everything?
+
+As a pragmatic programmer you understand that no one knows exactly what they want and it's part of your job to help them understand it. By discussing the underlying problem and all the edge cases you will probably come up with something better than your client or you would come up with on your own. 
+This is why we work iteratively. We explore the problem space and every iteration we come a bit closer to a good (enough!) solution. Use mockups and prototypes to verify that you are solving the right problem. And when you're on the right track, always think ETC because the requirements may change sooner than you think. 
 
 # Good-enough software
 
