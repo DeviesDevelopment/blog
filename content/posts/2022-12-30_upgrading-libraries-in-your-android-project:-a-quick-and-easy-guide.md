@@ -73,14 +73,26 @@ Once you have a better understanding of the problem, you can start working on a 
 This may involve updating your code to use new features or APIs that are available in the newer version of the library, or it may involve changing your code to avoid using deprecated features or APIs.
 
 If you're having trouble figuring out how to fix the issues, you may want to consider downgrading to an earlier version of the library.
-This can be a good option if you don't want to spend a lot of time fixing issues or if you need to get your project up and running as quickly as possible, MVP (Minimum Viable Product).
+This can be a good option if you don't want to spend a lot of time fixing issues or if you need to get your project up and running as quickly as possible, **MVP (Minimum Viable Product)**.
 
-To downgrade a library, simply change the version number in your gradle file back to the previous version that you were using or a version inbetween the one you're using and the latest.
+Downgrading a Gradle dependency can also potentially introduce security vulnerabilities if the newer version of the dependency includes security patches that were not present in the older version.
+Additionally, it may also expose the application to known vulnerabilities that have been fixed in the newer version of the dependency.
+Therefore, it is important to research and test any dependency changes, including downgrades, to ensure the application remains secure and free from vulnerabilities.
+
+On the other hand, if you want/need to downgrade a library, simply change the version number in your gradle file back to the previous version that you were using or a version inbetween the one you're using and the latest.
 The reason for this is wether the version number is e.g., compatible with your target SDK and/or if another library is dependent on the library your currently upgrading/downgrading.
 Incompatibility issues like these can be quite common but unforseen since Android Studio don't always highlights this type of issues.
 
 It's also a good idea to keep an eye on the documentation and release notes for the library that you are using.
 These resources can provide valuable information about new features, deprecated APIs, and known issues that you may encounter while using the library.
+
+## Tips on stying up-to-date
+
+- **Manually** check the official website or documentation for release information, or look for release notes on the library's GitHub repository.
+- Gradle has a built-in feature that can check for updates, and there's also a plugin like `com.github.ben-manes:gradle-versions-plugin` that can check all dependencies.
+- Some libraries also have mailing lists or social media to announce new releases.
+
+Before upgrading, evaluate the changes in the new version and test the library to ensure it aligns with the project goals.
 
 ## Summary
 
