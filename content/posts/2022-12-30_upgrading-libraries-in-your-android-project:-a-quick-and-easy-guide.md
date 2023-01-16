@@ -86,7 +86,7 @@ Incompatibility issues like these can be quite common but unforseen since Androi
 It's also a good idea to keep an eye on the documentation and release notes for the library that you are using.
 These resources can provide valuable information about new features, deprecated APIs, and known issues that you may encounter while using the library.
 
-## Tips on stying up-to-date
+## Tips on staying up-to-date
 
 - **Manually** check the official website or documentation for release information, or look for release notes on the library's GitHub repository.
 - Gradle has a built-in feature that can check for updates, and there's also a plugin like `com.github.ben-manes:gradle-versions-plugin` that can check all dependencies.
