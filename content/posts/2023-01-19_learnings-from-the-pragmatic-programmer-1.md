@@ -1,8 +1,8 @@
 ---
-title: "Learnings From Pragmatic Programmer"
+title: "Learnings From The Pragmatic Programmer"
 date: 2023-01-20T12:44:05+02:00
 tags: []
-featured_image: "https://images.unsplash.com/photo-1517673132405-a56a62b18caf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3276&q=80"
+featured_image: "https://images.unsplash.com/photo-1517673132405-a56a62b18caf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3276&q=80 "
 description: ""
 slug: "learnings-from-pragmatic-programmer-1"
 author:
