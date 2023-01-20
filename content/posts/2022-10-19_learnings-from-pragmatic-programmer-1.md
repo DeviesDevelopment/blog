@@ -17,7 +17,7 @@ At Devies we run a book club where we on a weekly basis discuss topics from a bo
 Recently we finished [The Pragmatic Programmer, 20th Anniversary Edition](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/).
 In this post, we'll share learnings around some of the topics we have discussed.
 
-# Tracer bullets vs Prototypes
+# Tracer Bullets vs Prototypes
 Two of the topics discussed in the book are tracer bullets and prototypes.
 The concepts are similar but addresses different problems.
 A prototype is a cheap way to try out an idea, to answer questions about something unknown.
@@ -37,9 +37,9 @@ It's important that both team and stakeholders are aligned in what's being devel
 Are we building something quick and dirty to see if an idea flies, or are we building a working system with a limited set of features?
 The answer to that quesion will probably impact both how you prioritize and how you implement features.
 
-# Purpose of testing
+# Purpose of Testing
 It is a common conception that the purpose of tests is to find bugs, to make sure that code works as intended.
-In the book, it's stated that this is not the case - Instead, the benefits of tests occur while thinking about tests, and when you write them,.
+In the book, it's stated that this is not the case - Instead, the benefits of tests occur while thinking about tests, and when you write them.
 It's a tool to get rapid feedback about aspects of your code, e.g. clarity of the public API and coupling to other components.
 Testing drives good software design.
 In addition, a mature test suite will make your life way easier while refactoring.
@@ -48,7 +48,7 @@ In some projects, it may be argued that there's no time to write tests because f
 If we accept the fact that testing drives good design, and that good design makes us deliver faster in the long run; you should find a way to write tests anyway, preferably in parallel with the feature development.
 [Friday Facts #366 - The only way to go fast, is to go well!](https://factorio.com/blog/post/fff-366) is a nice blog post about the relationship between software design and delivery speed.
 
-# Easy to change
+# Easy to Change
 As software developers, we often find ourselves working on projects that require frequent updates and changes.
 Whether it's adding new features, fixing bugs, or adapting to changing requirements, the ability to make changes to our codebase quickly and easily is critical.
 That's where the concept of an "Easy to Change" (ETC) mindset comes in.
@@ -75,14 +75,14 @@ These larger problems can include increased difficulty in making changes to the 
 
 There is really only one defense against the consequences of broken windows, and that is to fix the broken windows as soon as they are identified, or at least board them up!
 
-# The requirements myth
+# The Requirements Mrth
 
 I (Simon) used to be annoyed that clients or project owners didn't specify exactly what they wanted in the user stories. Did they not understand how much of our time they were wasting when we had to ask them to clarify everything?
 
 As a pragmatic programmer you understand that no one knows exactly what they want and it's part of your job to help them understand it. By discussing the underlying problem and all the edge cases you will probably come up with something better than your client or you would come up with on your own. 
 This is why we work iteratively. We explore the problem space and every iteration we come a bit closer to a good (enough!) solution. Use mockups and prototypes to verify that you are solving the right problem. And when you're on the right track, always think ETC because the requirements may change sooner than you think. 
 
-# Good-enough software
+# Good-enough Software
 
 There is no such thing as perfect and bug-free code. While this fact is obvious to most of us, it is not uncommon for developers to attempt to make near perfect code by spending a large amount of time to design, test, and refine, only to then be told to release it as is to their dismay. In order for this fact to not bring the motivation down during development we developers should discipline ourselves to write software that's _good enough_ - good enough for the users, for future maintainers of the code, and for our own peace of mind.
 
@@ -90,7 +90,7 @@ Note that the term _good enough_ does **not** mean sloppy or badly produced code
 
 Another important point to understand is to know when to stop, i.e. having a clear definition of what _good enough_ means for a particular project. Do not break a perfectly good program by spending too much time on overembellishment and overrefinement. There will come a time when you have to move on, and let the code be as it is. It will likely not be perfect, but then again, it can never be.
 
-# Don’t Outrun Your Headlights
+# Don’t Outrun your Headlights
 
 Think of this scenario. You have worked on a feature for several weeks, everything is set up, the API is finished, you have put the final touches on the UI and it's time to show the customer/stakeholders what you have created. You're full of confidence, you have made your feature according to the designs and specifications provided. But the demo doesn't go well, the stakeholders want to change things or they are not happy with the feature and you slowly realise that most of the work that you have done for the last weeks have been for nothing. The API needs to be redesign, the UI radically altered and the lines of code that needs to removed are numbered in the hundreds.
 
