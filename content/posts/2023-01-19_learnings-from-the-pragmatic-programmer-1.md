@@ -53,7 +53,7 @@ As software developers, we often find ourselves working on projects that require
 Whether it's adding new features, fixing bugs, or adapting to changing requirements, the ability to make changes to our codebase quickly and easily is critical.
 That's where the concept of an "Easy to Change" (ETC) mindset comes in.
 
-The ETC mindset is all about designing software systems that are easy to modify and adapt as needed. This involves writing clean, readable, and well-structured coded while
+The ETC mindset is all about designing software systems that are easy to modify and adapt as needed. This involves writing clean, readable, and well-structured code while
 keeping an open mind to new technologies and approaches that can make our systems more flexible and adaptable.
 
 As you implement a new feature, consider the long-term maintainability of your code. How easy or difficult would it be to adapt this feature to new requirements in the future? Will you need to make changes in multiple files, or can you make the necessary updates in just one file? Always think ETC.
@@ -92,7 +92,7 @@ Another important point to understand is to know when to stop, i.e. having a cle
 
 # Don’t Outrun your Headlights
 
-Think of this scenario. You have worked on a feature for several weeks, everything is set up, the API is finished, you have put the final touches on the UI and it's time to show the customer/stakeholders what you have created. You're full of confidence, you have made your feature according to the designs and specifications provided. But the demo doesn't go well, the stakeholders want to change things or they are not happy with the feature and you slowly realise that most of the work that you have done for the last weeks have been for nothing. The API needs to be redesign, the UI radically altered and the lines of code that needs to be removed are numbered in the hundreds.
+Think of this scenario. You have worked on a feature for several weeks, everything is set up, the API is finished, you have put the final touches on the UI and it's time to show the customer/stakeholders what you have created. You're full of confidence, you have made your feature according to the designs and specifications provided. But the demo doesn't go well, the stakeholders want to change things or they are not happy with the feature and you slowly realise that most of the work that you have done for the last weeks have been for nothing. The API needs to be redesigned, the UI radically altered and the lines of code that needs to be removed are numbered in the hundreds.
 
 If that scenarios sounds familiar to you then you might have outrun your headlights. In software development the headlights are as far as you can see in the future and that can be surprisingly short amount of time. Also if you drive too fast, something dangerous might show up in the headlights and you will not have time to adjust.
 
