@@ -35,7 +35,7 @@ If you miss the target - Learn, adjust and evaluate.
 
 It's important that both team and stakeholders are aligned in what's being developed.
 Are we building something quick and dirty to see if an idea flies, or are we building a working system with a limited set of features?
-The answer to that quesion will probably impact both how you prioritize and how you implement features.
+The answer to that question will probably impact both how you prioritize and how you implement features.
 
 # Purpose of Testing
 It is a common conception that the purpose of tests is to find bugs, to make sure that code works as intended.
@@ -62,11 +62,11 @@ As you implement a new feature, consider the long-term maintainability of your c
 In the fable about the stone soup, some soldiers start a soup with a few stones and slowly encourages the villagers to each donate an ingredient to make the soup tastier until they eventually rallied the whole village to produce a tasty soup.
 You may be in a situation where you know what needs to be done and how to do it but if you ask for permission you'll be met with delays and skepticism. If you instead start small and develop it well you can start to get buy-in from stakeholders and team members. You say: "Of course, it would be better if we added..". People find it easier to join an ongoing success.
 
-This is similar to the fable about boiling a frog by slowly increasing the temperature. The main difference is that with the stone soup you're a catalyze for something good, while by progressively deceiving the frog you're doing it harm. It's important to reflect if you're making stone soup or frog soup.
+This is similar to the fable about boiling a frog by slowly increasing the temperature. The main difference is that with the stone soup you're a catalyst for something good, while by progressively deceiving the frog you're doing it harm. It's important to reflect if you're making stone soup or frog soup.
 
 # Broken Window
 The "Broken Window" theory was introduced by James Q. Wilson and George L. Kelling in their article "Broken Windows" from 1982.
-They argued that small signs of disorder and neglect in a neighborhood, such as broken windows or graffiti, can lead to more serious crime and social problems.
+They argued that small signs of disorder and neglect in a neighbourhood, such as broken windows or graffiti, can lead to more serious crime and social problems.
 The main idea is that if a broken window is left unrepaired, it sends a message that no one cares about the area.
 
 In the context of software development, the "Broken Window" theory can be applied to the idea that small problems in our code can have a similar cascading effect. 
@@ -75,7 +75,7 @@ These larger problems can include increased difficulty in making changes to the 
 
 There is really only one defense against the consequences of broken windows, and that is to fix the broken windows as soon as they are identified, or at least board them up!
 
-# The Requirements Mrth
+# The Requirements Myth
 
 I (Simon) used to be annoyed that clients or project owners didn't specify exactly what they wanted in the user stories. Did they not understand how much of our time they were wasting when we had to ask them to clarify everything?
 
@@ -92,7 +92,7 @@ Another important point to understand is to know when to stop, i.e. having a cle
 
 # Don’t Outrun your Headlights
 
-Think of this scenario. You have worked on a feature for several weeks, everything is set up, the API is finished, you have put the final touches on the UI and it's time to show the customer/stakeholders what you have created. You're full of confidence, you have made your feature according to the designs and specifications provided. But the demo doesn't go well, the stakeholders want to change things or they are not happy with the feature and you slowly realise that most of the work that you have done for the last weeks have been for nothing. The API needs to be redesign, the UI radically altered and the lines of code that needs to removed are numbered in the hundreds.
+Think of this scenario. You have worked on a feature for several weeks, everything is set up, the API is finished, you have put the final touches on the UI and it's time to show the customer/stakeholders what you have created. You're full of confidence, you have made your feature according to the designs and specifications provided. But the demo doesn't go well, the stakeholders want to change things or they are not happy with the feature and you slowly realise that most of the work that you have done for the last weeks have been for nothing. The API needs to be redesign, the UI radically altered and the lines of code that needs to be removed are numbered in the hundreds.
 
 If that scenarios sounds familiar to you then you might have outrun your headlights. In software development the headlights are as far as you can see in the future and that can be surprisingly short amount of time. Also if you drive too fast, something dangerous might show up in the headlights and you will not have time to adjust.
 
