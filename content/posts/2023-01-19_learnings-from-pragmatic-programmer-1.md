@@ -1,6 +1,6 @@
 ---
 title: "Learnings From Pragmatic Programmer"
-date: 2022-10-19T12:44:05+02:00
+date: 2023-01-20T12:44:05+02:00
 tags: []
 featured_image: ""
 description: ""
