@@ -7,7 +7,7 @@ description: ""
 slug: "learnings-from-pragmatic-programmer-1"
 author:
  - Fredrik Mile
- - Jonathan Rhodin
+ - Jonatan Rhodin
  - Marcus Stigelid
  - Rickard Andersson
  - Simon Nielsen
@@ -88,4 +88,15 @@ There is no such thing as perfect and bug-free code. While this fact is obvious 
 
 Note that the term _good enough_ does **not** mean sloppy or badly produced code, it must still meet the users requirements and uphold certain standards in e.g. performance, security, and privacy. What the authors of this book are advocating for is to give the users an opportunity to participate in the decision of when the produced system is deemed good enough for their needs. While developers may be hesitant to release software with rough edges, many users prefer to have and use something _today_ rather than having something "perfect" (or near it) six months or a year from now (when their needs will likely have changed anyway). 
 
-Another important point to understand is to know when to stop, i.e. having a clear definition of what _good enough_ means for a particular project. Do not break a perfectly good program by spending too much time on overembellishment and overrefinement. There will come a time when you have to move on, and let the code be as it is. It will likely not be perfect, but then again, it can never be. 
+Another important point to understand is to know when to stop, i.e. having a clear definition of what _good enough_ means for a particular project. Do not break a perfectly good program by spending too much time on overembellishment and overrefinement. There will come a time when you have to move on, and let the code be as it is. It will likely not be perfect, but then again, it can never be.
+
+# Don’t Outrun Your Headlights
+
+Think of this scenario. You have worked on a feature for several weeks, everything is set up, the API is finished, you have put the final touches on the UI and it's time to show the customer/stakeholders what you have created. You're full of confidence, you have made your feature according to the designs and specifications provided. But the demo doesn't go well, the stakeholders want to change things or they are not happy with the feature and you slowly realise that most of the work that you have done for the last weeks have been for nothing. The API needs to be redesign, the UI radically altered and the lines of code that needs to removed are numbered in the hundreds.
+
+If that scenarios sounds familiar to you then you might have outrun your headlights. In software development the headlights are as far as you can see in the future and that can be surprisingly short amount of time. Also if you drive too fast, something dangerous might show up in the headlights and you will not have time to adjust.
+
+For a pragmatic programmer I (Jonatan) think two big learnings are that you should always take as small steps as possible and ask for feedback as often as possible so that if something does come up you can adjust accordingly and that you can never plan for all possible future events. Instead you should write code that you easily can replace.
+
+But maybe the biggest take away for me is that if you ever find yourself in a situation such as above, instead of feeling frustrated and resentful, slow down your car and think of what you can do to spot the disaster before it happens the next time.
+ 
