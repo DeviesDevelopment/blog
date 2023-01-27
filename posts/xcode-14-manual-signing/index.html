@@ -1,0 +1,191 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Xcode 14 & SPM: Deployment Pipeline in Azure | Devies blog</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Build, Sign, and Deploy an iOS App"><meta name=generator content="Hugo 0.110.0"><meta name=robots content="index, follow"><link rel=stylesheet href=/blog/ananke/css/main.min.49b20d3cec9ed5416b049a3758cf8a4707639bd0d32cee144918c11a5bbaddd2.css><link rel="shortcut icon" href=/blog/favicon.ico type=image/x-icon><meta property="og:title" content="Xcode 14 & SPM: Deployment Pipeline in Azure"><meta property="og:description" content="Build, Sign, and Deploy an iOS App"><meta property="og:type" content="article"><meta property="og:url" content="https://deviesdevelopment.github.io/blog/posts/xcode-14-manual-signing/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-01-27T08:00:00+01:00"><meta property="article:modified_time" content="2023-01-27T08:00:00+01:00"><meta itemprop=name content="Xcode 14 & SPM: Deployment Pipeline in Azure"><meta itemprop=description content="Build, Sign, and Deploy an iOS App"><meta itemprop=datePublished content="2023-01-27T08:00:00+01:00"><meta itemprop=dateModified content="2023-01-27T08:00:00+01:00"><meta itemprop=wordCount content="1173"><meta itemprop=keywords content="Xcode,SPM,Apple,iOS,Azure,Pipeline,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Xcode 14 & SPM: Deployment Pipeline in Azure"><meta name=twitter:description content="Build, Sign, and Deploy an iOS App"><script async src="https://www.googletagmanager.com/gtag/js?id=G-72VEGX2X3B"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-72VEGX2X3B",{anonymize_ip:!1})}</script></head><body class="ma0 avenir bg-near-white production"><header><div class=bg-black><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l justify-between items-center center"><a href=/blog/ class="f3 fw2 hover-white no-underline white-90 dib"><img src=/blog/logo.png class="w100 mw5-ns" alt="Devies blog"></a><div class="flex-l items-center"><div class=ananke-socials></div></div></div></nav></div></header><main class=pb7 role=main><article class="flex-l flex-wrap justify-between mw8 center ph3"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked">POSTS</aside><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">Xcode 14 & SPM: Deployment Pipeline in Azure</h1><p class=tracked>By <strong>Jean-Paul Massoud</strong></p><time class="f6 mv4 dib tracked" datetime=2023-01-27T08:00:00+01:00>January 27, 2023</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p><em><a href=#tldr>tl;dr</a></em></p><h2 id=background>Background</h2><p>Continuous Deployment (CD) pipelines are great tools to automate the deployment process of a software. Their main objective is to minimise human error and maintain a consistent process for how the software is released.</p><p>For Xcode projects this becomes a time critical process once the project has to be built for different configurations and/or environments. Since every configuration might require a different signing method, or even different deployment platform.</p><p>This article explains how to set up a project so that an Azure pipeline can build, archive, sign, and deploy the project to TestFlight. However, this approach is mostly focused on manually signing an SPM (Swift Package Manager) managed project.</p><h2 id=motive>Motive</h2><p>SPM is an Xcode integrated tool for managing the distribution of Swift code. It helps automating the process of downloading, compiling, and linking dependencies.
+However, when it comes to signing the code, SPM will try to sign the dependencies with the same provisioning profile that is used for the project. In most cases, this will not be allowed and results in build failure when trying to package the archive of the project.</p><h2 id=setup>Setup</h2><p>The project uses three different configurations and schemas (DEBUG, BETA, and RELEASE). While the signing process is Xcode managed; meaning Xcode will automatically manage the signing process. This setup saves headaches of certificates and profiles management when trying to build or run the project locally.</p><h2 id=implementation>Implementation</h2><ul><li><p>First create a variable group in your Azure pipeline, from the library tab. Here we will store all variables/credentials for a specific build configuration that are used within the pipeline .i.e. bundle ID, provisioning profile, certificate&mldr; etc.</p></li><li><p>In your pipeline .yml file add the environment variables that will be used later in the process</p></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>variables</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>group</span>: <span style=color:#ae81ff>testflight-variables</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>configuration</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#39;BETA&#39;</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>sdk</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#39;iphoneos&#39;</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>scheme</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#39;BETA&#39;</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>entitlement-path</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#ae81ff>MyProject/project.entitlements</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>app-path</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#ae81ff>Products/Applications/*.app</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>export-options</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#ae81ff>export.plist</span>
+</span></span></code></pre></div><ul><li>Now since the project uses Xcode 14, we are going to need a macOS 12 image for the pipeline</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>pool</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>vmImage</span>: <span style=color:#e6db74>&#34;macOS-12&#34;</span>
+</span></span></code></pre></div><ul><li><p>Once the above is set, it&rsquo;s time to define the steps of the deployment process</p><ol><li>Setup the mac image to use the distribution certificate by installing the certificate</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span>  - <span style=color:#f92672>task</span>: <span style=color:#ae81ff>InstallAppleCertificate@2</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#34;Install distribution certificate&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>certSecureFile</span>: <span style=color:#e6db74>&#39;$(p12CertName)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>certPwd</span>: <span style=color:#e6db74>&#39;$(p12Password)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>keychain</span>: <span style=color:#e6db74>&#39;temp&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>deleteCert</span>: <span style=color:#66d9ef>true</span>
+</span></span></code></pre></div><ol start=2><li>Setup the mac image to use the distribution provisioning profile by installing the profile</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span>  - <span style=color:#f92672>task</span>: <span style=color:#ae81ff>InstallAppleProvisioningProfile@1</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#34;Install Provisioning Profile&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>provisioningProfileLocation</span>: <span style=color:#e6db74>&#39;secureFiles&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>provProfileSecureFile</span>: <span style=color:#e6db74>&#39;$(betaProvisioningProfile)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>removeProfile</span>: <span style=color:#66d9ef>true</span>
+</span></span></code></pre></div><ol start=3><li>Using <code>PlistBuddy</code> create an export-options file that is used to sign the archive when exporting the binary</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span>  - <span style=color:#f92672>task</span>: <span style=color:#ae81ff>Bash@3</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#39;Create export options file&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>targetType</span>: <span style=color:#e6db74>&#39;inline&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>script</span>:
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :method string app-store&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :provisioningProfiles dict&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :provisioningProfiles:$(betaAppIdentifier) string $(APPLE_PROV_PROFILE_UUID)&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :signingCertificate string $(APPLE_CERTIFICATE_SIGNING_IDENTITY)&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :signingStyle string manual&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :teamID string $(teamId)&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :stripSwiftSymbols bool true&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :compileBitcode bool false&#34; $(Pipeline.Workspace)/$(export-options)</span>
+</span></span></code></pre></div><ol start=4><li>Now it&rsquo;s time for archiving the project. Here we set some flags for xcodebuild to save the archive in a specific directory (that will be used later), but most importantly is to set <code>CODE_SIGNING_ALLOWED=No'</code> since we don&rsquo;t want Xcode to sign the project along with its dependencies. On a side note, disable Xcode-pretty and add <code>-verbose</code> to get better debug output in the pipeline console</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span>  - <span style=color:#f92672>task</span>: <span style=color:#ae81ff>Xcode@5</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#39;Xcode archive&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>actions</span>: <span style=color:#e6db74>&#39;archive&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>configuration</span>: <span style=color:#e6db74>&#39;$(configuration)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>sdk</span>: <span style=color:#e6db74>&#39;$(sdk)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>scheme</span>: <span style=color:#e6db74>&#39;$(scheme)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>xcodeVersion</span>: <span style=color:#e6db74>&#39;14&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>signingOption</span>: <span style=color:#e6db74>&#39;default&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>packageApp</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>useXcpretty</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>args</span>: <span style=color:#e6db74>&#39;-destination generic/platform=iOS -archivePath $(Pipeline.Workspace)/$(scheme).xcarchive -verbose CODE_SIGNING_ALLOWED=No&#39;</span>
+</span></span></code></pre></div><ol start=5><li>Now that we have successfully archived the project, there is still a missing critical part before we sign and export the binary, that is to sign the archive with the project entitlements. These entitlements files are not bundled within the archive and since many projects require different entitlements to use Apple services .i.e. Push notification, Universal domains, signing with Apple&mldr; etc, this step is critical to not get the App rejected by Apple. Here we use a bash script to locate the entitlements file and use <code>codesign</code> to sign the <code>.app</code> that is located within the archive</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span>  - <span style=color:#f92672>task</span>: <span style=color:#ae81ff>Bash@3</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#39;Entitlements signing&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>targetType</span>: <span style=color:#e6db74>&#39;inline&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>script</span>:
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>codesign --entitlements $(Build.Repository.LocalPath)/$(entitlement-path) -f -s &#34;$(APPLE_CERTIFICATE_SIGNING_IDENTITY)&#34; $(Pipeline.Workspace)/$(scheme).xcarchive/$(app-path)</span>
+</span></span></code></pre></div><ol start=6><li>The next step is to sign and export an <code>.ipa</code> file from the archive. This <code>.ipa</code> will be then published to a desired platform</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span>  - <span style=color:#f92672>task</span>: <span style=color:#ae81ff>Bash@3</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#39;Xcode sign and export&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>targetType</span>: <span style=color:#e6db74>&#39;inline&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>script</span>:
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/bin/xcodebuild -exportArchive -archivePath $(Pipeline.Workspace)/$(scheme).xcarchive -exportPath $(Build.ArtifactStagingDirectory) -exportOptionsPlist $(Pipeline.Workspace)/$(export-options)</span>
+</span></span></code></pre></div><ol start=7><li>The last step now that we have a signed <code>.ipa</code> file is to publish it to a desired platform. For this post TestFlight is used as a hosting platform. Here we&rsquo;ll be using Fastlane to publish the app. Ideally one would want to use an API authentication method with <code>AppStoreConnect</code>, but for simplicity reasons a regular user authentication method is used</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span>  - <span style=color:#f92672>task</span>: <span style=color:#ae81ff>AppStoreRelease@1</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>authType</span>: <span style=color:#e6db74>&#39;UserAndPass&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>username</span>: <span style=color:#e6db74>&#39;$(AppStoreUsername)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>password</span>: <span style=color:#e6db74>&#39;$(AppStorePassword)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>isTwoFactorAuth</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>appSpecificPassword</span>: <span style=color:#e6db74>&#39;$(AppStoreSpecificPassword)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>releaseTrack</span>: <span style=color:#e6db74>&#39;TestFlight&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>ipaPath</span>: <span style=color:#e6db74>&#39;$(Build.ArtifactStagingDirectory)/*.ipa&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>shouldSkipWaitingForProcessing</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>appIdentifier</span>: <span style=color:#e6db74>&#39;$(betaAppIdentifier)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>appType</span>: <span style=color:#e6db74>&#39;iOS&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>appSpecificId</span>: <span style=color:#e6db74>&#39;$(AppStoreSpecificId)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>teamId</span>: <span style=color:#e6db74>&#39;$(teamId)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>teamName</span>: <span style=color:#e6db74>&#39;$(teamName)&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>installFastlane</span>: <span style=color:#66d9ef>true</span>
+</span></span></code></pre></div><h2 id=conclusion>Conclusion</h2><p>Automating continuous deployment for Xcode projects can be overwhelming but at the end it doesn&rsquo;t only save valuable time, but also helps others to easily contribute to the project by leaving the signing and deployment headache to the pipeline to deal with. In addition, many of these steps can be handled seamlessly with advanced Fastlane configuration, but to know how to do it manually with Xcode is valuable in my honest opinion.</p></li></ul><hr><h1 id=tldr>TL;DR</h1><p>The complete Yaml file:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#75715e># Environement variables</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>variables</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>group</span>: <span style=color:#ae81ff>testflight-variables</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>configuration</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#39;BETA&#39;</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>sdk</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#39;iphoneos&#39;</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>scheme</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#39;BETA&#39;</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>entitlement-path</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#ae81ff>MyProject/project.entitlements</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>app-path</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#ae81ff>Products/Applications/*.app</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>export-options</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>value</span>: <span style=color:#ae81ff>export.plist</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>trigger</span>:
+</span></span><span style=display:flex><span>- <span style=color:#ae81ff>none</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>pool</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>vmImage</span>: <span style=color:#e6db74>&#34;macOS-12&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>- <span style=color:#f92672>task</span>: <span style=color:#ae81ff>InstallAppleCertificate@2</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#34;Install distribution certificate&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>   <span style=color:#f92672>certSecureFile</span>: <span style=color:#e6db74>&#39;$(p12FileName)&#39;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>certPwd</span>: <span style=color:#e6db74>&#39;$(p12Password)&#39;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>keychain</span>: <span style=color:#e6db74>&#39;temp&#39;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>deleteCert</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>- <span style=color:#f92672>task</span>: <span style=color:#ae81ff>InstallAppleProvisioningProfile@1</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#34;Install Provisioning Profile&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>provisioningProfileLocation</span>: <span style=color:#e6db74>&#39;secureFiles&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>provProfileSecureFile</span>: <span style=color:#e6db74>&#39;$(betaProvisioningProfile)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>removeProfile</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>- <span style=color:#f92672>task</span>: <span style=color:#ae81ff>Bash@3</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#39;Create export options file&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>targetType</span>: <span style=color:#e6db74>&#39;inline&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>script</span>:
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :method string app-store&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :provisioningProfiles dict&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :provisioningProfiles:$(betaAppIdentifier) string $(APPLE_PROV_PROFILE_UUID)&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :signingCertificate string $(APPLE_CERTIFICATE_SIGNING_IDENTITY)&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :signingStyle string manual&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :teamID string $(teamId)&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :stripSwiftSymbols bool true&#34; $(Pipeline.Workspace)/$(export-options) &amp;&amp;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>/usr/libexec/PlistBuddy -c &#34;Add :compileBitcode bool false&#34; $(Pipeline.Workspace)/$(export-options)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>- <span style=color:#f92672>task</span>: <span style=color:#ae81ff>Xcode@5</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#39;Xcode archive&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>actions</span>: <span style=color:#e6db74>&#39;archive&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>configuration</span>: <span style=color:#e6db74>&#39;$(configuration)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>sdk</span>: <span style=color:#e6db74>&#39;$(sdk)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>scheme</span>: <span style=color:#e6db74>&#39;$(scheme)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>xcodeVersion</span>: <span style=color:#e6db74>&#39;14&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>signingOption</span>: <span style=color:#e6db74>&#39;default&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>packageApp</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>useXcpretty</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>args</span>: <span style=color:#e6db74>&#39;-destination generic/platform=iOS -archivePath $(Pipeline.Workspace)/$(scheme).xcarchive -verbose CODE_SIGNING_ALLOWED=No&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>- <span style=color:#f92672>task</span>: <span style=color:#ae81ff>Bash@3</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#39;Code signing&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>targetType</span>: <span style=color:#e6db74>&#39;inline&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>script</span>:
+</span></span><span style=display:flex><span>      <span style=color:#ae81ff>codesign --entitlements $(Build.Repository.LocalPath)/$(entitlement-path) -f -s &#34;$(APPLE_CERTIFICATE_SIGNING_IDENTITY)&#34; $(Pipeline.Workspace)/$(scheme).xcarchive/$(app-path)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>- <span style=color:#f92672>task</span>: <span style=color:#ae81ff>Bash@3</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>displayName</span>: <span style=color:#e6db74>&#39;Xcode export&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>targetType</span>: <span style=color:#e6db74>&#39;inline&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>script</span>:
+</span></span><span style=display:flex><span>      <span style=color:#ae81ff>/usr/bin/xcodebuild -exportArchive -archivePath $(Pipeline.Workspace)/$(scheme).xcarchive -exportPath $(Build.ArtifactStagingDirectory) -exportOptionsPlist $(Pipeline.Workspace)/$(export-options)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>- <span style=color:#f92672>task</span>: <span style=color:#ae81ff>AppStoreRelease@1</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>authType</span>: <span style=color:#e6db74>&#39;UserAndPass&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>username</span>: <span style=color:#e6db74>&#39;$(username)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>password</span>: <span style=color:#e6db74>&#39;$(password)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>isTwoFactorAuth</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>appSpecificPassword</span>: <span style=color:#e6db74>&#39;$(appSpecificPassword)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>releaseTrack</span>: <span style=color:#e6db74>&#39;TestFlight&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>ipaPath</span>: <span style=color:#e6db74>&#39;$(Build.ArtifactStagingDirectory)/*.ipa&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>shouldSkipWaitingForProcessing</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>appIdentifier</span>: <span style=color:#e6db74>&#39;$(betaAppIdentifier)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>appType</span>: <span style=color:#e6db74>&#39;iOS&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>appSpecificId</span>: <span style=color:#e6db74>&#39;$(appSpecificId)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>teamId</span>: <span style=color:#e6db74>&#39;$(teamId)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>teamName</span>: <span style=color:#e6db74>&#39;$(teamName)&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>installFastlane</span>: <span style=color:#66d9ef>true</span>  
+</span></span></code></pre></div><ul class=pa0><li class="list di"><a href=/blog/tags/xcode/ class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Xcode</a></li><li class="list di"><a href=/blog/tags/spm/ class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">SPM</a></li><li class="list di"><a href=/blog/tags/apple/ class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Apple</a></li><li class="list di"><a href=/blog/tags/ios/ class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">iOS</a></li><li class="list di"><a href=/blog/tags/azure/ class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Azure</a></li><li class="list di"><a href=/blog/tags/pipeline/ class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">pipeline</a></li></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/blog/posts/how-xcode-bamboozled-me/>How Xcode Bamboozled Me</a></li><li class=mb2><a href=/blog/posts/managed-identities-and-rbac-is-great/>Using managed identities and role based access control is great!</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://deviesdevelopment.github.io/blog/>&copy; Devies blog 2023</a><div><div class=ananke-socials></div></div></div></footer></body></html>
