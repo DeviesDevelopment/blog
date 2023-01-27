@@ -1,6 +1,6 @@
 ---
 title: "Xcode 14 & SPM: Deployment Pipeline in Azure"
-date: 2022-12-08T14:10:27+01:00
+date: 2023-01-27T08:00:00+01:00
 tags: [Xcode, SPM, Apple, iOS, Azure, Pipeline]
 featured_image: ""
 description: "Build, Sign, and Deploy an iOS App"
