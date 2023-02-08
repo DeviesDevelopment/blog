@@ -6,7 +6,7 @@ googleAnalytics = "G-72VEGX2X3B"
 [params]
   site_logo = "/blog/logo.png"
   favicon = "favicon.ico"
-  featured_image = "sparvagn.jpg"
+  featured_image = '/blog/cover_sparvagn.jpg'
   custom_css = ["custom.css"]
 [markup.goldmark.renderer] 
   unsafe = true
