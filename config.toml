@@ -1,6 +1,6 @@
 theme = "ananke"
 baseURL = "https://deviesdevelopment.github.io/blog"
-title = "Devies blog"
+title = "Devies Tech Culture Business Blog"
 googleAnalytics = "G-72VEGX2X3B"
 
 [params]
