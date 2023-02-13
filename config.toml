@@ -7,5 +7,6 @@ googleAnalytics = "G-72VEGX2X3B"
   site_logo = "/blog/logo.png"
   favicon = "favicon.ico"
   custom_css = ["custom.css"]
+  recent_posts_number = 6
 [markup.goldmark.renderer] 
   unsafe = true
