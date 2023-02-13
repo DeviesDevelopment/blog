@@ -7,5 +7,18 @@ googleAnalytics = "G-72VEGX2X3B"
   site_logo = "/blog/logo.png"
   favicon = "favicon.ico"
   custom_css = ["custom.css"]
+  recent_posts_number = 6
 [markup.goldmark.renderer] 
   unsafe = true
+
+[[params.ananke_socials]]
+name = "instagram"
+url = "https://www.instagram.com/deviesgbg/"
+
+[[params.ananke_socials]]
+name = "github"
+url = "https://www.github.com/deviesdevelopment/"
+
+[[params.ananke_socials]]
+name = "linkedin"
+url = "https://www.linkedin.com/company/deviesdevelopment"
