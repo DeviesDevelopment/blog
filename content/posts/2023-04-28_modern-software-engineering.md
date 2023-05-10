@@ -25,11 +25,19 @@ Science has proven to be a good approach to learning.
 Throughout the book Farley relates to techniques and strategies from the [scientific method](https://en.wikipedia.org/wiki/Scientific_method) and show how we can apply ideas from science to solve practical problems in our everyday work.
 
 In this post, we'll share some takeaways from the book.
-___
 
-The speed and quality of feedback is also the rate and quality of learning.
+### Feedback loops
+
+Feedback loops comes in many forms.
+Compilation, unit tests and static code analysis provides feedback on your local development.
+Continuous integration (CI) provides feedback on how well your change works together with other changes.
+Continuous delivery (CD) provides feedback on how well your change works in production.
+Metrics on how features are used provides feedback on how valuable your features are.
+
+Regardless of what kind of feedback loop; the speed and quality of feedback constitutes your rate and quality of learning.
 Be aware of your feedback loops and strive to improve them.
-This is applicable on many different abstraction levels, from compilation of a program, to telemetry for measuring how features are used.
+
+### Measuring success and improvement
 
 It’s hard to measure success and improvement in software development.
 Agile approaches accept that we have to trust subjective judgement by preferring “individuals and interactions over processes and tools”.
