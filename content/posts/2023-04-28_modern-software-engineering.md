@@ -37,6 +37,44 @@ Metrics on how features are used provides feedback on how valuable your features
 Regardless of what kind of feedback loop; the speed and quality of feedback constitutes your rate and quality of learning.
 Be aware of your feedback loops and strive to improve them.
 
+### Deployability vs Releasability
+
+To ensure quick iteration times and speedy CI/CD it's helpful to separate
+Deployability and Releasability.
+
+Deployability means that the change is ready to merge and send to produciton.
+But that does not mean that the feature has to be enabled or availible for the
+end user just yet. This means that the change passes the tests and the build
+system. It's possible to merge into the main branch.
+
+Releaseability is then that the feature of fix is ready to enable for the end
+user.
+
+This separation helps us develop larger features while still maintaining
+a short time from code writing to deploy. This has a few advantages over long
+running feature branches. It is much easier to merge since we only ever merge
+to the main branch. And the individual merges are smaller. And therefore easier
+to review. And the paralell development always has a reference to the new
+feature under development, so the branches won't diverge.
+
+This separation is also a good stepping stone to more advanced
+release-strategies like A/B testing and staged/gradual roll out.
+
+It's commonly setup via a feature flag system.
+
+But there are some drawbacks as always. A feature flag system can become very
+complex and it's hard to test all different combinations of flags.
+
+# Don't trust your assumptions: Formulate a hypothesis and test it
+
+Assumptions are a dangerous thing in development.
+
+Formulate a hypothesis and then construct a test or experiment that can prove
+or disprove it. Then forumlate a better hypothesis, and iterate.  #continousimprovement
+
+
+
+
 ### Measuring success and improvement
 
 It’s hard to measure success and improvement in software development.
