@@ -65,18 +65,27 @@ It's commonly setup via a feature flag system.
 But there are some drawbacks as always. A feature flag system can become very
 complex and it's hard to test all different combinations of flags.
 
-# Don't trust your assumptions: Formulate a hypothesis and test it
+### Don't trust your assumptions: Formulate a hypothesis and test it
 
 Assumptions are a dangerous thing in development.
 
 Formulate a hypothesis and then construct a test or experiment that can prove
 or disprove it. Then forumlate a better hypothesis, and iterate.  #continousimprovement
 
+### Measuring team performance
 
+It’s hard to measure performance of software development teams.
+Will we deliver more if we start to use this other programming language?
+Do we decrease the number of bugs and incidents by requiring manager approval prior to production deployments?
 
+Farley refer a lot to the four DevOps metrics that relatively recently has been proposed in the _State of DevOps report_, and in the book _Accelerate_.
+This is a set of metrics which aim to measure the **throughput** and **stability** of software delivery.
+Throughput refers to how quick and how often the team can move ideas into production.
+Stability refer to the quality and robustness of changes, and how quick the team is able to recover from failed changes.
+An interesting fact about these metrics is that high performers in throughput also tend to be high performers in stability, and vice versa (contrary to the traditional [project management triangle](https://en.wikipedia.org/wiki/Project_management_triangle)).
 
-### Measuring success and improvement
-
-It’s hard to measure success and improvement in software development.
-Agile approaches accept that we have to trust subjective judgement by preferring “individuals and interactions over processes and tools”.
-The four DevOps metrics related to stability and throughput are important - Gives us a less subjective measures that can reinforce our subjective evaluations.
+Of course, the metrics alone doesn't tell us everything; e.g. the actual value of changes are not represented in the metrics.
+Regardless, the four DevOps metrics are important.
+We finally have an objective tool that can reinforce or invalidate our subjective judgement.
+We can measure the impact of changes to organization, process, culture and technology.
+Pretty epic.
