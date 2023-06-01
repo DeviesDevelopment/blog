@@ -20,7 +20,7 @@ In this post, I aim to explain how I like to approach tasks in a bit more struct
 First of all, you need to have a basic understanding the task.
 Read through the description.
 Do some reconnaissance.
-Anything that need to be clarified?
+Anything that needs to be clarified?
 Is there anything you should **not** do? Can you move it to a separate task?
 Discuss with your team members, your product owner or possibly your end users.
 What parts of the codebase will be involved?
@@ -41,7 +41,7 @@ Stretch your legs, take some fresh air.
 Once you're back - Execute!
 Grab the first item from your high level plan.
 Write tests, implement.
-If your mind start to stray towards items further down in your plan, stop!
+If your mind starts to stray towards items further down in your plan, stop!
 You'll deal with it later.
 If you get an idea of something important that you've completely forgot to account for in the high level plan - Don't chase that idea right now, simply add a note of it to the bottom of your high level plan.
 If you get stuck on a non-critical aspect of the item you're currently working on - Make it into its own item in the high level plan and deal with it later.
@@ -52,7 +52,7 @@ The purpose is to have a clean state before starting with the next item.
 Review your high level plan.
 Put a checkmark next to the item you just completed.
 Do you need to re-prioritize?
-Need to investigate some thing that you recently added?
+Need to investigate something that you recently added?
 Once you're satisfied with the plan, grab the next item.
 Rinse and repeat.
 
