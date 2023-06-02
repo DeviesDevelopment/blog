@@ -1,10 +1,10 @@
 ---
-title: "A Structured Approach to Complete Software Development Tasks"
+title: "A Structured Approach to Work With Software Development Tasks"
 date: 2023-06-01T07:31:20+02:00
 tags: [ "development", "culture" ]
 featured_image: ""
 description: ""
-slug: "a-structured-approach-to-complete-software-development-tasks"
+slug: "a-structured-approach-to-work-with-software-development-tasks"
 author:
  - Rickard Andersson
 ---
