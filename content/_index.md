@@ -5,5 +5,3 @@ cascade:
   featured_image: '/sparvagn.jpg'
   
 ---
-
-Welcome
