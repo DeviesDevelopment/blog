@@ -42,8 +42,8 @@ Be aware of your feedback loops and strive to improve them.
 To ensure quick iteration times and speedy CI/CD it's helpful to separate
 Deployability and Releasability.
 
-Deployability means that the change is ready to merge and send to produciton.
-But that does not mean that the feature has to be enabled or availible for the
+Deployability means that the change is ready to merge and send to production.
+But that does not mean that the feature has to be enabled or available for the
 end user just yet. This means that the change passes the tests and the build
 system. It's possible to merge into the main branch.
 
@@ -59,7 +59,7 @@ feature under development, so the branches won't diverge.
 
 This separation is also a good stepping stone to more advanced
 release-strategies like A/B testing and staged/gradual roll out.
-It's usually achived with feature flags.
+It's usually achieved with feature flags.
 But there are some drawbacks as always.
 A feature flag system can become very
 complex and it's hard to test all different combinations of flags.
@@ -68,7 +68,7 @@ complex and it's hard to test all different combinations of flags.
 
 ### Don't trust your assumptions: Formulate a hypothesis and test it
 
-Assumptions are a dangerous thing in development. You could arguge that most
+Assumptions are a dangerous thing in development. You could argue that most
 bugs are caused by faulty assumptions. Either a wrong assumption about how the
 computer, language or the code work. Or a mistaken assumption about the
 product, industry or the users needs.
@@ -79,8 +79,8 @@ or disprove it. The result is very valuable feedback. Then you know if the
 assumption holds or not, without guessing or debate. Separating myth and
 reality.
 
-Then you forumlate a better hypothesis, and test that. And then you iterate the
-hypothesis-test cycle again. And again. As we do with a continous improvement
+Then you formulate a better hypothesis, and test that. And then you iterate the
+hypothesis-test cycle again. And again. As we do with a continuous improvement
 culture.
 
 But it is important to control the variables so that the experiment is
@@ -90,7 +90,7 @@ depends on the conditions of the system under test and the hypothesis.
 A related concept is self deception.
 It is really easy to invent a reality that suits the argument you are trying
 to make, regardless if it's true or not.
-Sometimes you really want to belive certain things about your software systems.
+Sometimes you really want to believe certain things about your software systems.
 The Hypothesis-test cycle is a effective way to guard against self deception as
 well.
 
