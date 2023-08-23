@@ -54,23 +54,46 @@ This separation helps us develop larger features while still maintaining
 a short time from code writing to deploy. This has a few advantages over long
 running feature branches. It is much easier to merge since we only ever merge
 to the main branch. And the individual merges are smaller. And therefore easier
-to review. And the paralell development always has a reference to the new
+to review. And the parallel development always has a reference to the new
 feature under development, so the branches won't diverge.
 
 This separation is also a good stepping stone to more advanced
 release-strategies like A/B testing and staged/gradual roll out.
-
-It's commonly setup via a feature flag system.
-
-But there are some drawbacks as always. A feature flag system can become very
+It's usually achived with feature flags.
+But there are some drawbacks as always.
+A feature flag system can become very
 complex and it's hard to test all different combinations of flags.
+
+
 
 ### Don't trust your assumptions: Formulate a hypothesis and test it
 
-Assumptions are a dangerous thing in development.
+Assumptions are a dangerous thing in development. You could arguge that most
+bugs are caused by faulty assumptions. Either a wrong assumption about how the
+computer, language or the code work. Or a mistaken assumption about the
+product, industry or the users needs.
 
-Formulate a hypothesis and then construct a test or experiment that can prove
-or disprove it. Then forumlate a better hypothesis, and iterate.  #continousimprovement
+How do you avoid this? One way is described in the book:
+Formulate a hypothesis, then construct a test or experiment that can prove
+or disprove it. The result is very valuable feedback. Then you know if the
+assumption holds or not, without guessing or debate. Separating myth and
+reality.
+
+Then you forumlate a better hypothesis, and test that. And then you iterate the
+hypothesis-test cycle again. And again. As we do with a continous improvement
+culture.
+
+But it is important to control the variables so that the experiment is
+accurate and reproducible. How you do this is the hard part, it very much
+depends on the conditions of the system under test and the hypothesis.
+
+A related concept is self deception.
+It is really easy to invent a reality that suits the argument you are trying
+to make, regardless if it's true or not.
+Sometimes you really want to belive certain things about your software systems.
+The Hypothesis-test cycle is a effective way to guard against self deception as
+well.
+
 
 ### Measuring team performance
 
