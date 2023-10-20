@@ -46,15 +46,14 @@ Deployability means that the change is ready to merge and send to production.
 But that does not mean that the feature has to be enabled or available for the
 end user just yet. This means that the change passes the tests and the build
 system. It's possible to merge into the main branch.
-
-Releaseability is then that the feature of fix is ready to enable for the end
-user.
+Releaseability is that the feature or fix is ready to enable for the end user.
 
 This separation helps us develop larger features while still maintaining
 a short time from code writing to deploy. This has a few advantages over long
 running feature branches. It is much easier to merge since we only ever merge
-to the main branch. And the individual merges are smaller. And therefore easier
-to review. And the parallel development always has a reference to the new
+to the main branch. Individual merges are smaller, and therefore easier
+to review.
+Parallel development always has a reference to the new
 feature under development, so the branches won't diverge.
 
 This separation is also a good stepping stone to more advanced
@@ -76,7 +75,7 @@ product, industry or the users needs.
 How do you avoid this? One way is described in the book:
 Formulate a hypothesis, then construct a test or experiment that can prove
 or disprove it. The result is very valuable feedback. Then you know if the
-assumption holds or not, without guessing or debate. Separating myth and
+assumption holds or not, without guessing or debating. Separating myth and
 reality.
 
 Then you formulate a better hypothesis, and test that. And then you iterate the
@@ -91,7 +90,7 @@ A related concept is self deception.
 It is really easy to invent a reality that suits the argument you are trying
 to make, regardless if it's true or not.
 Sometimes you really want to believe certain things about your software systems.
-The Hypothesis-test cycle is a effective way to guard against self deception as
+The Hypothesis-test cycle is an effective way to guard against self deception as
 well.
 
 
