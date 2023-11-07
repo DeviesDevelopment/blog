@@ -1,6 +1,6 @@
 ---
 title: "Takeaways from Modern Software Engineering"
-date: 2023-04-28T12:55:42+02:00
+date: 2023-11-01T12:55:42+02:00
 tags: []
 featured_image: ""
 description: ""
