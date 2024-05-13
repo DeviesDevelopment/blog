@@ -14,6 +14,8 @@ The results were quite aligned with the general average.
 So now lets see some exercises which can affect most of them.
 At the same time these exercises are easy to do and they can fit simply in an office environment.
 
+### Glutes
+
 Lets start from the center as "all roads lead to Rome".
 It is a common trend that the glutes are not utilized enough.
 You may have heard from a trainer in a gym to activate your glutes.
@@ -32,7 +34,7 @@ We can't cover all details here, but you can [drop us a message and become a dev
 
 Do you need to do this all the time?
 Walking everwhere like you messed up your pants?
-Of course not, and you don't need to squeeze it 110% percent so you look like having diarrhea.
+Of course not, and you don't need to squeeze it 110% percent so you look like fighting diarrhea.
 It does not have to be visible from the outside.
 You can go full force but you don't have to.
 You can variate longer period with less effort and shorter with full squeeze.
@@ -45,9 +47,18 @@ You can add one more to remember activating your glutes every now and then.
 An other way is to pick some recurring activities where you do it.
 For example "i walk up the stairs to the office with my glutes mostly engaged".
 
+### Use those shoulders
+
+We built a stable foundation in the previous paragraph, lets have a look on the top levels of the building.
+Many times we sit in a stationary position leaning on out hand with the computer mouse in it.
+Or if we are paying attention not to do that, sitting at a keyboard is still a quite movement restricted situation.
+[kepek]
+https://torokhtiy.com/blogs/guides/shoulder-mobility-exercises
+https://www.physioprescription.com/shoulder-stretches-best-1/
+
 Moves
-Hip
-Glutes
+--Hip
+--Glutes
 Open up shoulderblades (4p, trx)
 Chair + desk stuff
 
