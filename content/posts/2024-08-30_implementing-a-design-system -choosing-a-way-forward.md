@@ -9,7 +9,7 @@ author:
  - Simon Nielsen
 ---
 
-For the last year one of my main projects at work has been to lead the implementation of a design system, building it together with my team. It's not a perfect implementation but I'm quite proud of what we have accomplished so far with small resources. I'd like to share some of our insights and experiences, about specific decisions we've made and why.
+For the last year one of my main projects at work has been to lead the implementation of a design system, building it together with my team. It's not a perfect implementation but I'm quite proud of what we have accomplished so far with limited resources. I'd like to share some of our insights and experiences, about specific decisions we've made and why.
 
 Let's begin with the needs expressed by the organization:
 
@@ -35,7 +35,7 @@ This requirement made us consider the following options:
 - Base it on an existing component library
 
 ### Implement it using only one framework
-Many organizations choose to build everything with one technology, the last few years it's usually React. This can work great for smaller organizations but of course it comes with limitations and risks. We lock ourselves into one framework that may turn out to not work well for every use case, go obsolete or turn into a direction we don't like to follow. The upsides are that it is easier and less time consuming, at least short/medium term. For us, this would mean having to also rewrite some big existing websites and apps into the same framework which was not feasible.
+Many organizations choose to build everything with one technology, the last few years it's usually React. This can work great for smaller organizations but of course it comes with limitations and risks. We lock ourselves into one framework that may turn out to not work well for every use case, go obsolete or turn into a direction we don't want to follow. The upsides are that it is easier and less time consuming, at least short/medium term. For us, this would mean we have to rewrite some big existing websites and apps into the same framework too which was not feasible.
 
 ### Implement it with pure CSS
 But what about skipping implementing it for a specific framework? Pure, modern CSS is very powerful. I've seen how a CSS implementation of a design system has used ARIA attributes etc in a clever way for their style selectors which kind of forces the user to write accessible code in order to access the right styling. We chose to not go this way because it would mean we can't bake in accessibility to the same extent that we would like since we can't package the html template itself. Also we can't really handle components requiring some state.
