@@ -4,7 +4,7 @@ title = "Devies Tech Culture Business Blog"
 googleAnalytics = "G-72VEGX2X3B"
 
 [params]
-  site_logo = "/blog/logo.png"
+  site_logo = "/logo.png"
   favicon = "favicon.ico"
   custom_css = ["custom.css"]
   recent_posts_number = 6
