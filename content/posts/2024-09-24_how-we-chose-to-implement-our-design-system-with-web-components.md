@@ -1,6 +1,6 @@
 ---
 title: "How We Chose to Implement Our Design System With Web Components"
-date: 2024-09-20T17:16:49+02:00
+date: 2024-09-24T17:08:49+02:00
 tags: ["web", "web components", "accessibility", "design system", "component library", "CSS", "Shadow DOM", "Lit", "Stencil"]
 featured_image: ""
 description: ""
