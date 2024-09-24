@@ -12,4 +12,8 @@ So how to create a generic setup where new test cases is a breeze to create? ðŸ¤
 In that project we use the &lt;a href="https://en.wikipedia.org/wiki/Dental_notation">dental notation (ISO 3950)&lt;/a> to refer to teeth.
 Every tooth have an unique identifier that consist of two characters.
 The first character represent a quadrant (one of four areas in the mouth).
-The second character is an identifier that refers to one of the eight teeth in that area.&lt;/p></description></item></channel></rss>
+The second character is an identifier that refers to one of the eight teeth in that area.&lt;/p>
+&lt;p>Early on in the project we represented the tooth identifier using a string, for example &lt;code>&amp;quot;42&amp;quot;&lt;/code> (4 is the quadrant, 2 is the identifier).
+As the project grew we stared to use this tooth identifier in many different places in the project.
+Since we use a raw string, we had to make sure the tooth identifier was properly validated at every place where it was used.
+Additionally, it was unclear what the tooth identifier (string) represented, and it affected the readability of our code.&lt;/p></description></item></channel></rss>
