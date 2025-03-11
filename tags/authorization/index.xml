@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Authorization on Devies Tech Culture Business Blog</title><link>https://blog.devies.se/tags/authorization/</link><description>Recent content in Authorization on Devies Tech Culture Business Blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 07 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.devies.se/tags/authorization/index.xml" rel="self" type="application/rss+xml"/><item><title>Introducing tower-oauth2-resource-server</title><link>https://blog.devies.se/posts/introducing-tower-oauth2-resource-server/</link><pubDate>Fri, 07 Mar 2025 00:00:00 +0000</pubDate><guid>https://blog.devies.se/posts/introducing-tower-oauth2-resource-server/</guid><description>&lt;p>&lt;strong>TLDR:&lt;/strong> I&amp;rsquo;ve built a middleware for handling JWT authorization.
+It&amp;rsquo;s written for the Rust ecosystem and supports many popular web frameworks such as &lt;a href="https://crates.io/crates/axum">axum&lt;/a>, &lt;a href="https://crates.io/crates/salvo/">salvo&lt;/a> and &lt;a href="https://crates.io/crates/tonic">tonic&lt;/a>.
+It&amp;rsquo;s called &lt;strong>tower-oauth2-resource-server&lt;/strong> and you can find the source code on &lt;a href="https://github.com/Dunklas/tower-oauth2-resource-server">github&lt;/a>.
+Feel free to use and contribute!&lt;/p>
+&lt;hr>
+&lt;p>Over the last few months, I&amp;rsquo;ve delved into the art of writing a REST API using Rust.
+Specifically, I&amp;rsquo;ve used the &lt;a href="https://crates.io/crates/axum">axum&lt;/a> crate to do so.
+Like most projects, mine eventually needed authorization.
+A way to validate incoming JSON Web Tokens (JWTs) from an external identity provider.&lt;/p></description></item></channel></rss>
