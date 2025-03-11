@@ -8,7 +8,7 @@ Visit the blog at [deviesdevelopment.github.io/blog](https://deviesdevelopment.g
 
 ### Prerequisites
 
-- [Hugo CLI](https://gohugo.io/getting-started/installing)
+- Have docker installed
 
 ### Write new post
 
@@ -22,11 +22,10 @@ Don't know what to write about? Have a look in the [topics list](topics.md)!
 
 If you want to preview how your post will look like, you can start a local server.
 
- 1. Make sure you have [Hugo CLI](https://gohugo.io/getting-started/installing) installed.
- 2. Update submodules: `git submodule update --init --recursive`
+ 1. Update submodules: `git submodule update --init --recursive`
     - Required since git submodules is used for Hugo themes
- 3. From the repository root, run `hugo server -D`
- 4. Visit [http://localhost:1313/blog](http://localhost:1313/blog) in your web browser!
+ 3. From the repository root, run `./start.sh`
+ 4. Visit [http://localhost:1313](http://localhost:1313) in your web browser!
 
 ## Spell check
 
