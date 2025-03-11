@@ -1,0 +1,6 @@
+By&nbsp;
+{{- if reflect.IsSlice . -}}
+    {{ delimit . ", " | markdownify }}
+{{- else -}}
+    {{ . | markdownify }}
+{{- end -}}
