@@ -8,7 +8,7 @@ Visit the blog at [deviesdevelopment.github.io/blog](https://deviesdevelopment.g
 
 ### Prerequisites
 
-- Have docker installed!
+- Have docker installed
 
 ### Write new post
 
@@ -24,8 +24,8 @@ If you want to preview how your post will look like, you can start a local serve
 
  1. Update submodules: `git submodule update --init --recursive`
     - Required since git submodules is used for Hugo themes
- 3. From the repository root, run `./hugo.sh server -D`
- 4. Visit [http://localhost:1313/blog](http://localhost:1313/blog) in your web browser!
+ 3. From the repository root, run `./start.sh`
+ 4. Visit [http://localhost:1313](http://localhost:1313) in your web browser!
 
 ## Spell check
 
